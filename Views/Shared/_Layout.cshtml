@@ -6,11 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css">
-    <title>eShop</title>
+    <title>MyIas</title>
 
     <style>
-
         body {
+            font-size: 14px;
+            font-family: "Open Sans", sans-serif;
+
             padding: 0;
             margin: 0;
             min-height: 100vh;
@@ -18,8 +20,11 @@
             grid-template-rows: 50px 1fr 30px;
             grid-template-columns: 235px 1fr;
         }
-        ul{
+
+        ul {
             list-style: none;
+            padding: 0;
+            margin: 0;
         }
 
         header,
@@ -31,14 +36,48 @@
         nav {
             background-color: #364150
         }
+        main{
+            padding: 20px;
+        }
     </style>
     <style>
         .menu>li {
-            color: white;
+            border: 1px solid #3d4957;
         }
 
-        .subMenu {
+        .menu>li>a {
+            text-decoration: none;
+            display: block;
             color: #b4bcc8;
+            padding: 10px 15px;
+        }
+
+        .menu>li>a:hover, .menu>li>a.active {
+            background-color: #2C3542;
+        }
+
+
+        .menu .iconRight {
+            float: right;
+            position: relative;
+            top: 5px;
+            font-size: 10px;
+        }
+
+        .menu h3 {
+            color: #708096;
+            padding: 15px;
+            margin: 0;
+        }
+
+        .subMenu>li>a {
+            text-decoration: none;
+            display: block;
+            color: #b4bcc8;
+            padding: 10px 15px 10px 45px;
+        }
+        .subMenu>li>a:hover{
+            background-color: #3e4b5c;
         }
     </style>
 </head>
@@ -49,12 +88,25 @@
     </header>
 
     <nav>
+        <p></p>
         <ul class="menu">
             <li>
-                <i class="icon-home"></i> Главная
+                <h3>ГЛАВНАЯ</h3>
+            </li>
+            <li>
+                <a href="#" class="active">
+                    <i class="icon-home"></i> Главная <span class="icon-arrow-down iconRight"></span>
+                </a>
                 <ul class="subMenu">
-                    <li>Товары</li>
+                    <li> <a href="#">Статистика</a> </li>
                 </ul>
+            </li>
+            <li>
+                <h3>КРС</h3>
+            </li>
+
+            <li>
+                <a href="#"><i class="icon-diamond"></i> Товары</a>
             </li>
         </ul>
 
