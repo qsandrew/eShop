@@ -1,50 +1,114 @@
 <style>
-    .card{
+    input[type=text],
+    select {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 5px;
+        border: 1px solid #ccc;
+    }
+</style>
+
+<style>
+    .card {
         border: 1px solid #32c5d2;
     }
-    .card .title{
+
+    .card .title {
         font-size: 18px;
         padding: 10px;
         background-color: #32c5d2;
         color: white;
     }
-    .card .body{
+
+    .card .body {
         padding: 15px;
     }
-    table{
+
+    table {
         color: #333;
         width: 100%;
         border-collapse: collapse;
     }
-    table thead{
+
+    table thead {
         background-color: #f1f4f7;
     }
-    table th, table td{
-        padding: 8px;
+
+    table th,
+    table td {
+        padding: 5px;
         border: 1px solid #e7ecf1;
     }
-</style>
 
-<div class="card">
+    table td:nth-child(1) {
+        text-align: center;
+    }
+
+    .vdp-datepicker__calendar {
+        right: 0
+    }
+</style>
+<!-- <div id="app">
+    <vuejs-datepicker></vuejs-datepicker>
+  </div> -->
+<div id="app" class="card">
     <div class="title"><i class="fa fa-comments"></i> Сотрудники</div>
     <div class="body">
         <table>
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th style="width: 50px;">#</th>
                     <th>ФИО</th>
-                    <th>ИИН</th>
-                    <th>Роль</th>
+                    <th style="width: 100px;">ИИН</th>
+                    <th style="width: 120px;">Роль</th>
+                    <th style="width: 100px;">Работает с</th>
+                    <th style="width: 100px;">Работает по</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th><input type="text"></th>
+                    <th><input type="text"></th>
+                    <th>
+                        <select>
+                            <option>1</option>
+                            <option>2</option>
+                        </select>
+                    </th>
+                    <th>
+                        <vuejs-datepicker :language="ru" :format="format"></vuejs-datepicker>
+                    </th>
+                    <th>
+                        <vuejs-datepicker :language="ru" :format="format"></vuejs-datepicker>
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>1</td>
                     <td>2</td>
-                    <td>3</td>
+                    <td>123145268755</td>
                     <td>4</td>
+                    <td>20.03.2020</td>
+                    <td>20.05.2020</td>
                 </tr>
             </tbody>
         </table>
     </div>
 </div>
+
+@section Scripts{
+<script src="https://unpkg.com/vuejs-datepicker"></script>
+<script src="https://unpkg.com/vuejs-datepicker/dist/locale/translations/ru.js"></script>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            format: 'dd.MM.yyyy',
+            ru: vdp_translation_ru.js
+        },
+        components: {
+            vuejsDatepicker
+        }
+    })
+</script>
+}
