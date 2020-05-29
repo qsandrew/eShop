@@ -48,21 +48,42 @@
         right: 0
     }
 </style>
+<style>
+    .btn{
+        padding: 5px;
+        border: 1px solid transparent;
+    }
+    .btn.green{
+        color: #FFF;
+        background-color: #32c5d2;
+        border-color: #32c5d2;
+    }
+    .btn.green:hover{
+        background-color: #26a1ab;
+        border-color: #26a1ab;
+        
+    }
+</style>
 <!-- <div id="app">
     <vuejs-datepicker></vuejs-datepicker>
   </div> -->
 <div id="app" class="card">
     <div class="title"><i class="fa fa-comments"></i> Сотрудники</div>
     <div class="body">
+        <button style="margin-bottom: 10px;" class="btn green"> Добавить
+            <i class="fa fa-plus"></i>
+        </button>
+
         <table>
             <thead>
                 <tr>
                     <th style="width: 50px;">#</th>
                     <th>ФИО</th>
                     <th style="width: 100px;">ИИН</th>
-                    <th style="width: 120px;">Роль</th>
+                    <th style="width: 200px;">Должность</th>
                     <th style="width: 100px;">Работает с</th>
-                    <th style="width: 100px;">Работает по</th>
+                    <th style="width: 100px;">Статус</th>
+                    <th style="width: 80px;">Действия</th>
                 </tr>
                 <tr>
                     <th></th>
@@ -74,12 +95,14 @@
                             <option>2</option>
                         </select>
                     </th>
+                    <th></th>
                     <th>
-                        <vuejs-datepicker :language="ru" :format="format"></vuejs-datepicker>
+                        <select>
+                            <option>1</option>
+                            <option>2</option>
+                        </select>
                     </th>
-                    <th>
-                        <vuejs-datepicker :language="ru" :format="format"></vuejs-datepicker>
-                    </th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -87,9 +110,10 @@
                     <td>1</td>
                     <td>2</td>
                     <td>123145268755</td>
-                    <td>4</td>
-                    <td>20.03.2020</td>
-                    <td>20.05.2020</td>
+                    <td>dd</td>
+                    <td>01.02.2018</td>
+                    <td>dd</td>
+                    <td>dd</td>
                 </tr>
             </tbody>
         </table>
