@@ -11,11 +11,11 @@ namespace eShop.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private IasContext _db;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IasContext context)
         {
-            _logger = logger;
+            _db = context;
         }
 
         public IActionResult Index()
