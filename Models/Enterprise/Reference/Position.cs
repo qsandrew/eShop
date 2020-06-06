@@ -6,4 +6,11 @@ namespace eShop.Models.Enterprise.Reference
     {
         
     }
+
+    public enum StatusWork{
+        Work=1,
+        Holiday=2,
+        Ill=3,
+        Fired=4
+    }
 }

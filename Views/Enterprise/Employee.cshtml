@@ -1,14 +1,4 @@
 <style>
-    input[type=text],
-    select {
-        box-sizing: border-box;
-        width: 100%;
-        padding: 5px;
-        border: 1px solid #ccc;
-    }
-</style>
-
-<style>
     .card {
         border: 1px solid #32c5d2;
     }
@@ -48,29 +38,172 @@
         right: 0
     }
 </style>
+
+<!-- Global styles -->
 <style>
-    .btn{
+    .btn {
         padding: 5px;
         border: 1px solid transparent;
     }
-    .btn.green{
+    button:hover{
+        cursor: pointer;
+    }
+
+    input[type=text],
+    select {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 5px;
+        border: 1px solid #ccc;
+    }
+</style>
+
+<!-- Global Color -->
+<style>
+    .green {
         color: #FFF;
         background-color: #32c5d2;
         border-color: #32c5d2;
     }
-    .btn.green:hover{
+
+    .green:hover {
         background-color: #26a1ab;
         border-color: #26a1ab;
-        
+
+    }
+
+    .outline {
+        border: 1px solid #2f353b;
+        color: #2f353b;
+        background: transparent;
+    }
+    .outline:hover {
+        border-color: #2f353b;
+        color:white;
+        background: #2f353b;
     }
 </style>
+
+
+<style>
+    .modal {
+        display: block;
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        
+    }
+
+    .modal-content {
+        box-sizing: border-box;
+        background-color: #fefefe;
+        position: relative;
+        margin: auto;
+        top: 50%;
+        transform: translateY(-50%);
+
+        border: 1px solid #888;
+        width: 400px;
+    }
+
+    .modal-content h3 {
+        text-align: center;
+        padding-bottom: 10px;
+        color: #333;
+        border-bottom: 1px solid #EFEFEF;
+    }
+    hr{
+        border: 1px solid #EFEFEF;
+
+    }
+</style>
+
+<!-- MaterialDesign Style -->
+<style>
+    .mtForm {
+        margin: 0 40px;
+    }
+
+    .mtForm label {
+        color: #36c6d3;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .mtForm input,
+    .mtForm select,
+    .mtForm textarea {
+        border: 0;
+        border-bottom: 1px solid #c2cad8;
+        outline: none;
+        width: 100%;
+        padding-left: 0;
+    }
+
+    .mtForm input:focus,
+    .mtForm select:focus,
+    .mtForm textarea:focus {
+        border-bottom: 1px solid #36c6d3;
+    }
+</style>
+
 <!-- <div id="app">
     <vuejs-datepicker></vuejs-datepicker>
   </div> -->
 <div id="app" class="card">
+    <div class="modal" v-if="showEmp">
+        <div class="modal-content">
+            <h3>Добавить сотрудника</h3>
+            <form id="formEmployee" class="mtForm">
+
+                <label>Фамилия
+                    <input type="text" required placeholder="Введите фамилию">
+                </label>
+                <label>Имя
+                    <input type="text" required placeholder="Введите имя">
+                </label>
+                <label>Отчество
+                    <input type="text" placeholder="Введите отчество (необ.)">
+                </label>
+                <label>ИИН
+                    <input type="text"  required pattern="[0-9]{12}" maxlength="12"  placeholder="Введите ИИН (12 цифр)">
+                </label>
+                <label>Должность
+                    <select>
+                        <option disabled>Выберите должность</option>
+                        <option v-for="p in positions" v-bind:value="p.id">{{p.name}}</option>
+                    </select>
+                </label>
+                <label>Работает с
+                    <input type="date" required placeholder="Введите дату">
+                </label>
+                <label>Статус
+                    <select>
+                        <option value="1">Работает</option>
+                        <option value="2">Отпуск</option>
+                        <option value="3">Болеет</option>
+                        <option value="4">Уволен</option>
+                    </select>
+                </label>
+            </form>
+            <hr />
+            <div style="margin: 10px; text-align: right;">
+                <button class="btn outline" v-on:click="closeWinEmp()">Отмена</button>
+                <button class="btn green" v-on:click="checkIsValid()">Сохранить</button>
+            </div>
+
+        </div>
+
+    </div>
+
     <div class="title"><i class="fa fa-comments"></i> Сотрудники</div>
     <div class="body">
-        <button style="margin-bottom: 10px;" class="btn green"> Добавить
+        <button style="margin-bottom: 10px;" class="btn green" v-on:click="showEmp=true"> Добавить
             <i class="fa fa-plus"></i>
         </button>
 
@@ -79,11 +212,11 @@
                 <tr>
                     <th style="width: 50px;">#</th>
                     <th>ФИО</th>
-                    <th style="width: 100px;">ИИН</th>
+                    <th style="width: 150px;">ИИН</th>
                     <th style="width: 200px;">Должность</th>
                     <th style="width: 100px;">Работает с</th>
-                    <th style="width: 100px;">Статус</th>
-                    <th style="width: 80px;">Действия</th>
+                    <th style="width: 150px;">Статус</th>
+                    <th style="width: 100px;">Действия</th>
                 </tr>
                 <tr>
                     <th></th>
@@ -91,15 +224,18 @@
                     <th><input type="text"></th>
                     <th>
                         <select>
-                            <option>1</option>
-                            <option>2</option>
+                            <option></option>
+                            <option v-for="p in positions" v-bind:value="p.id">{{p.name}}</option>
                         </select>
                     </th>
                     <th></th>
                     <th>
                         <select>
-                            <option>1</option>
-                            <option>2</option>
+                            <option></option>
+                            <option value="1">Работает</option>
+                            <option value="2">Отпуск</option>
+                            <option value="3">Болеет</option>
+                            <option value="4">Уволен</option>
                         </select>
                     </th>
                     <th></th>
@@ -125,9 +261,37 @@
     const app = new Vue({
         el: '#app',
         data: {
-           
+            showEmp:false,
+            positions: []
+        },
+        mounted() {
+            this.getPositions();
+        },
+        methods: {
+            checkIsValid:function(){
+                let arrInput = formEmployee.querySelectorAll("[required]");
+                let isInvalid=false;
+                for (let inp of arrInput) {
+                    if(inp.checkValidity()){
+                        inp.style.borderBottom= "1px solid #36c6d3";
+                    }else{
+                        inp.style.borderBottom= "1px solid red";
+                        isInvalid = true;
+                    }
+                }
+               
+            },
+
+            closeWinEmp:function(){
+                formEmployee.reset(); 
+                this.showEmp=false;
+            },
+            getPositions: async function () {
+                let resp = await axios.get('/Enterprise/GetPositions');
+                this.positions = resp.data;
+            }
         }
-      
+
     })
 </script>
 }

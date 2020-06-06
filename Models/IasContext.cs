@@ -1,3 +1,4 @@
+using eShop.Models.Enterprise;
 using eShop.Models.Enterprise.Reference;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,5 +10,6 @@ namespace eShop.Models
        : base(options)
         { }
         public DbSet<Position> Positions { get; set; }
+        public DbSet<Employee> Employees { get; set; }
     }
 }

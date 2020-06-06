@@ -7,9 +7,12 @@ namespace eShop.Controllers
     public class EnterpriseController : Controller
     {
         private IasContext _db;
-        public IActionResult Employee(IasContext context)
+         public EnterpriseController(IasContext context)
         {
             _db = context;
+        }
+        public IActionResult Employee()
+        {
             return View();
         }
 
