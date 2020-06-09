@@ -1,16 +1,22 @@
+using System.ComponentModel;
 using eShop.Models.Common;
 
 namespace eShop.Models.Enterprise.Reference
 {
-    public class Position:Base
+    public class Position : Base
     {
-        
+
     }
 
-    public enum StatusWork{
-        Work=1,
-        Holiday=2,
-        Ill=3,
-        Fired=4
+    public enum StatusWork
+    {
+        [Description("Работает")]
+        Work = 1,
+        [Description("Отпуск")]
+        Holiday = 2,
+        [Description("Болеет")]
+        Ill = 3,
+        [Description("Уволен")]
+        Fired = 4
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using eShop.Models;
+using eShop.Models.Enterprise;
 using eShop.Models.Enterprise.Reference;
 
 namespace eShop.BL

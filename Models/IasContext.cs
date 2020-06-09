@@ -11,5 +11,13 @@ namespace eShop.Models
         { }
         public DbSet<Position> Positions { get; set; }
         public DbSet<Employee> Employees { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Employee>()
+                .HasIndex(e => e.IIN)
+                .IsUnique();
+        }
     }
+
 }

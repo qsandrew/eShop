@@ -33,10 +33,15 @@
     table td:nth-child(1) {
         text-align: center;
     }
-
-    .vdp-datepicker__calendar {
-        right: 0
+    table tbody td{
+        text-align: center;
     }
+
+    /* .vdp-datepicker__calendar {
+        right: 0;
+        color:black;
+    } */
+    
 </style>
 
 <!-- Global styles -->
@@ -152,38 +157,40 @@
     }
 </style>
 
-<!-- <div id="app">
-    <vuejs-datepicker></vuejs-datepicker>
-  </div> -->
 <div id="app" class="card">
+  
+  
     <div class="modal" v-if="showEmp">
         <div class="modal-content">
             <h3>Добавить сотрудника</h3>
             <form id="formEmployee" class="mtForm">
 
                 <label>Фамилия
-                    <input type="text" required placeholder="Введите фамилию">
+                    <input type="text" v-model="emp.surName" required placeholder="Введите фамилию">
                 </label>
                 <label>Имя
-                    <input type="text" required placeholder="Введите имя">
+                    <input type="text" v-model="emp.name" required placeholder="Введите имя">
                 </label>
                 <label>Отчество
-                    <input type="text" placeholder="Введите отчество (необ.)">
+                    <input type="text" v-model="emp.middleName" placeholder="Введите отчество (необ.)">
                 </label>
                 <label>ИИН
-                    <input type="text"  required pattern="[0-9]{12}" maxlength="12"  placeholder="Введите ИИН (12 цифр)">
+                    <input type="text" v-model="emp.iin" required pattern="[0-9]{12}" maxlength="12"  placeholder="Введите ИИН (12 цифр)">
                 </label>
                 <label>Должность
-                    <select>
+                    <select v-model="emp.positionId">
                         <option disabled>Выберите должность</option>
                         <option v-for="p in positions" v-bind:value="p.id">{{p.name}}</option>
                     </select>
                 </label>
+               
                 <label>Работает с
-                    <input type="date" required placeholder="Введите дату">
+                    
+                    <input v-model="emp.fromDate" type="date" required placeholder="Введите дату">
                 </label>
+                    <!-- <vuejs-datepicker  v-model="emp.fromDate"></vuejs-datepicker> -->
                 <label>Статус
-                    <select>
+                    <select v-model.number=emp.statusWork>
                         <option value="1">Работает</option>
                         <option value="2">Отпуск</option>
                         <option value="3">Болеет</option>
@@ -194,16 +201,16 @@
             <hr />
             <div style="margin: 10px; text-align: right;">
                 <button class="btn outline" v-on:click="closeWinEmp()">Отмена</button>
-                <button class="btn green" v-on:click="checkIsValid()">Сохранить</button>
+                <button class="btn green" v-on:click="saveEmployee()">Сохранить</button>
             </div>
 
         </div>
 
     </div>
-
+    
     <div class="title"><i class="fa fa-comments"></i> Сотрудники</div>
     <div class="body">
-        <button style="margin-bottom: 10px;" class="btn green" v-on:click="showEmp=true"> Добавить
+        <button style="margin-bottom: 10px;" class="btn green" v-on:click="showAddEmp()"> Добавить
             <i class="fa fa-plus"></i>
         </button>
 
@@ -242,13 +249,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>123145268755</td>
-                    <td>dd</td>
-                    <td>01.02.2018</td>
-                    <td>dd</td>
+                <tr v-for="(emp,ind) in employees">
+                    <td>{{ind}}</td>
+                    <td>{{emp.fullName}}</td>
+                    <td>{{emp.iin}}</td>
+                    <td>{{emp.positionName}}</td>
+                    <td>{{emp.fromDate}}</td>
+                    <td>{{emp.statusName}}</td>
                     <td>dd</td>
                 </tr>
             </tbody>
@@ -257,19 +264,45 @@
 </div>
 
 @section Scripts{
+
+    <!-- <script src="/vuejs-datepicker.min.js"></script> -->
 <script>
     const app = new Vue({
         el: '#app',
+        // components: {
+        //     vuejsDatepicker
+        // },
         data: {
             showEmp:false,
-            positions: []
+            employees:[],
+            positions: [],
+            emp:{
+                surName:'',
+                name:'',
+                middleName:'',
+                iin:'',
+                positionId:0,
+                fromDate:'',
+                statusWork:1
+            }
         },
+      
         mounted() {
+            this.getEmployees();
             this.getPositions();
         },
         methods: {
-            checkIsValid:function(){
-                let arrInput = formEmployee.querySelectorAll("[required]");
+            getEmployees: async function () {
+                let resp = await axios.get('/Enterprise/GetEmployees');
+                this.employees = resp.data;
+            },
+
+            showAddEmp:function(){
+                this.showEmp=true;
+            },
+
+            checkIsInvalid:function(){
+                let arrInput = formEmployee.querySelectorAll("[required], [pattern]");
                 let isInvalid=false;
                 for (let inp of arrInput) {
                     if(inp.checkValidity()){
@@ -279,7 +312,15 @@
                         isInvalid = true;
                     }
                 }
-               
+                return isInvalid;
+            },
+            saveEmployee:async function(){
+                if(this.checkIsInvalid()){
+
+                    return;
+                }
+                let resp = await axios.post('/Enterprise/SaveEmployee', this.emp);
+                alert(resp.data);
             },
 
             closeWinEmp:function(){
@@ -289,7 +330,9 @@
             getPositions: async function () {
                 let resp = await axios.get('/Enterprise/GetPositions');
                 this.positions = resp.data;
-            }
+                this.emp.positionId= this.positions[0].id
+            },
+            
         }
 
     })
