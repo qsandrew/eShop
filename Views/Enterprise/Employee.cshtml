@@ -33,15 +33,24 @@
     table td:nth-child(1) {
         text-align: center;
     }
-    table tbody td{
+
+    table tbody tr {
+        cursor: pointer;
+    }
+
+    table tbody tr:hover {
+        background-color: #f3f4f6;
+    }
+
+    table tbody td {
         text-align: center;
+
     }
 
     /* .vdp-datepicker__calendar {
         right: 0;
         color:black;
     } */
-    
 </style>
 
 <!-- Global styles -->
@@ -50,7 +59,8 @@
         padding: 5px;
         border: 1px solid transparent;
     }
-    button:hover{
+
+    button:hover {
         cursor: pointer;
     }
 
@@ -71,21 +81,70 @@
         border-color: #32c5d2;
     }
 
+    .red {
+        color: #FFF;
+        background-color: #ed6b75;
+        border-color: #ed6b75;
+    }
+
+    .yellow {
+        color: #fff;
+        background-color: #F1C40F;
+        background-color: #F1C40F;
+    }
+
     .green:hover {
         background-color: #26a1ab;
         border-color: #26a1ab;
 
     }
 
-    .outline {
+    .outBlack {
         border: 1px solid #2f353b;
         color: #2f353b;
         background: transparent;
     }
-    .outline:hover {
+
+    .outBlack:hover {
         border-color: #2f353b;
-        color:white;
+        color: #fff;
         background: #2f353b;
+    }
+
+    .outPurple {
+        border-color: #8E44AD;
+        color: #8E44AD;
+        background: transparent;
+    }
+
+    .outPurple:hover {
+        border-color: #8E44AD;
+        color: #fff;
+        background: #8E44AD;
+    }
+
+    .outBlue {
+        color: #3598dc;
+        background-color: transparent;
+        border-color: #3598dc;
+    }
+
+    .outBlue:hover {
+        color: #FFF;
+        background-color: #3598dc;
+        border-color: #3598dc;
+    }
+
+    .outRed {
+        color: #e43a45;
+        background-color: transparent;
+        border-color: #e43a45;
+    }
+
+    .outRed:hover {
+        color: #fff;
+        background-color: #e43a45;
+        border-color: #e43a45;
     }
 </style>
 
@@ -101,7 +160,7 @@
         height: 100%;
         overflow: auto;
         background-color: rgba(0, 0, 0, 0.4);
-        
+
     }
 
     .modal-content {
@@ -122,7 +181,8 @@
         color: #333;
         border-bottom: 1px solid #EFEFEF;
     }
-    hr{
+
+    hr {
         border: 1px solid #EFEFEF;
 
     }
@@ -158,9 +218,9 @@
 </style>
 
 <div id="app" class="card">
-  
-  
-    <div class="modal" v-if="showEmp">
+
+
+    <div class="modal" v-show="showEmp">
         <div class="modal-content">
             <h3>Добавить сотрудника</h3>
             <form id="formEmployee" class="mtForm">
@@ -175,7 +235,8 @@
                     <input type="text" v-model="emp.middleName" placeholder="Введите отчество (необ.)">
                 </label>
                 <label>ИИН
-                    <input type="text" v-model="emp.iin" required pattern="[0-9]{12}" maxlength="12"  placeholder="Введите ИИН (12 цифр)">
+                    <input type="text" v-model="emp.iin" required pattern="[0-9]{12}" maxlength="12"
+                        placeholder="Введите ИИН (12 цифр)">
                 </label>
                 <label>Должность
                     <select v-model="emp.positionId">
@@ -183,12 +244,12 @@
                         <option v-for="p in positions" v-bind:value="p.id">{{p.name}}</option>
                     </select>
                 </label>
-               
+
                 <label>Работает с
-                    
+
                     <input v-model="emp.fromDate" type="date" required placeholder="Введите дату">
                 </label>
-                    <!-- <vuejs-datepicker  v-model="emp.fromDate"></vuejs-datepicker> -->
+                <!-- <vuejs-datepicker  v-model="emp.fromDate"></vuejs-datepicker> -->
                 <label>Статус
                     <select v-model.number=emp.statusWork>
                         <option value="1">Работает</option>
@@ -200,72 +261,126 @@
             </form>
             <hr />
             <div style="margin: 10px; text-align: right;">
-                <button class="btn outline" v-on:click="closeWinEmp()">Отмена</button>
+                <button class="btn outBlack" v-on:click="closeWinEmp()">Отмена</button>
                 <button class="btn green" v-on:click="saveEmployee()">Сохранить</button>
             </div>
 
         </div>
 
     </div>
-    
+
+
+
+
     <div class="title"><i class="fa fa-comments"></i> Сотрудники</div>
     <div class="body">
-        <button style="margin-bottom: 10px;" class="btn green" v-on:click="showAddEmp()"> Добавить
+        <button style="display: none;" style="margin-bottom: 10px;" class="btn green" v-on:click="showAddEmp()">
+            Добавить
             <i class="fa fa-plus"></i>
         </button>
+        <form id="formTable" action="javascript:alert('h');">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">#</th>
+                        <th>ФИО</th>
+                        <th style="width: 150px;">ИИН</th>
+                        <th style="width: 200px;">Должность</th>
+                        <th style="width: 100px;">Работает с</th>
+                        <th style="width: 150px;">Статус</th>
+                        <th style="width: 100px;">Действия</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th><input type="text"></th>
+                        <th><input type="text"></th>
+                        <th>
+                            <select>
+                                <option></option>
+                                <option v-for="p in positions" v-bind:value="p.id">{{p.name}}</option>
+                            </select>
+                        </th>
+                        <th></th>
+                        <th>
+                            <select>
+                                <option></option>
+                                <option value="1">Работает</option>
+                                <option value="2">Отпуск</option>
+                                <option value="3">Болеет</option>
+                                <option value="4">Уволен</option>
+                            </select>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(empl,ind) in employees">
+                        <template v-if="empl.isEdit==false">
+                            <td>{{ind+1}}</td>
+                            <td>{{empl.fullName}}</td>
+                            <td>{{empl.iin}}</td>
+                            <td>{{empl.positionName}}</td>
+                            <td>{{empl.fromDate}}</td>
+                            <td> <span style="padding: 3px;"
+                                    v-bind:class="setStatuslbl(empl.statusWork)">{{empl.statusName}}</span></td>
+                            <td>
+                                <button class="btn outPurple"><i class="fa fa-pencil"></i></button>
+                                <button class="btn outBlack"><i class="fa fa-trash"></i></button>
 
-        <table>
-            <thead>
-                <tr>
-                    <th style="width: 50px;">#</th>
-                    <th>ФИО</th>
-                    <th style="width: 150px;">ИИН</th>
-                    <th style="width: 200px;">Должность</th>
-                    <th style="width: 100px;">Работает с</th>
-                    <th style="width: 150px;">Статус</th>
-                    <th style="width: 100px;">Действия</th>
-                </tr>
-                <tr>
-                    <th></th>
-                    <th><input type="text"></th>
-                    <th><input type="text"></th>
-                    <th>
-                        <select>
-                            <option></option>
-                            <option v-for="p in positions" v-bind:value="p.id">{{p.name}}</option>
-                        </select>
-                    </th>
-                    <th></th>
-                    <th>
-                        <select>
-                            <option></option>
-                            <option value="1">Работает</option>
-                            <option value="2">Отпуск</option>
-                            <option value="3">Болеет</option>
-                            <option value="4">Уволен</option>
-                        </select>
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(emp,ind) in employees">
-                    <td>{{ind}}</td>
-                    <td>{{emp.fullName}}</td>
-                    <td>{{emp.iin}}</td>
-                    <td>{{emp.positionName}}</td>
-                    <td>{{emp.fromDate}}</td>
-                    <td>{{emp.statusName}}</td>
-                    <td>dd</td>
-                </tr>
-            </tbody>
-        </table>
+                            </td>
+                        </template>
+                        <template v-else>
+                            <td></td>
+                            <td>
+                                <input form="formTable" style="width: 32%;" type="text" v-model="emp.surName" required
+                                    placeholder="Введите фамилию">
+                                <input style="width: 32%;" type="text" v-model="emp.name" required
+                                    placeholder="Введите имя">
+                                <input style="width: 32%;" type="text" v-model="emp.middleName"
+                                    placeholder="Введите отчество (необ.)">
+                            </td>
+                            <td>
+                                <input type="text" v-model="emp.iin" required pattern="[0-9]{12}" maxlength="12"
+                                    placeholder="Ввод ИИН (12 цифр)">
+                            </td>
+                            <td>
+                                <select required v-model="emp.positionId">
+                                    <option disabled>Выберите должность</option>
+                                    <option v-for="p in positions" v-bind:value="p.id">{{p.name}}</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input v-model="emp.fromDate" type="date" required placeholder="Введите дату">
+                            </td>
+                            <td>
+                                <select v-model.number=emp.statusWork>
+                                    <option value="1">Работает</option>
+                                    <option value="2">Отпуск</option>
+                                    <option value="3">Болеет</option>
+                                    <option value="4">Уволен</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button class="btn outRed" v-on:click="deleteRow()"><i
+                                        class="fa fa-eraser"></i></button>
+                                <button class="btn outBlue" v-on:click="saveEmployee()"><i
+                                        class="fa fa-check"></i></button>
+                            </td>
+                        </template>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        <div style="margin-top: 10px; text-align: right;">
+            <button class="btn outBlue" v-on:click="addRow();"><i class="fa fa-plus"></i> Добавить</button>
+        </div>
+
     </div>
 </div>
 
 @section Scripts{
 
-    <!-- <script src="/vuejs-datepicker.min.js"></script> -->
+<!-- <script src="/vuejs-datepicker.min.js"></script> -->
 <script>
     const app = new Vue({
         el: '#app',
@@ -273,66 +388,87 @@
         //     vuejsDatepicker
         // },
         data: {
-            showEmp:false,
-            employees:[],
+            showEmp: false,
+            employees: [],
             positions: [],
-            emp:{
-                surName:'',
-                name:'',
-                middleName:'',
-                iin:'',
-                positionId:0,
-                fromDate:'',
-                statusWork:1
+            emp: {
+                surName: '',
+                name: '',
+                middleName: '',
+                iin: '',
+                positionId: 1,
+                fromDate: '',
+                statusWork: 1,
+                isEdit: true
             }
         },
-      
+
         mounted() {
             this.getEmployees();
             this.getPositions();
         },
+
         methods: {
+            addRow() {
+                this.emp = { surName: '', name: '', middleName: '', iin: '', positionId: 1, fromDate: '', statusWork: 1, isEdit: true }
+                this.employees.push(this.emp)
+            },
+            deleteRow() {
+                this.emp = { surName: '', name: '', middleName: '', iin: '', positionId: 1, fromDate: '', statusWork: 1, isEdit: true }
+                this.employees.pop();
+            },
+
+            setStatuslbl(status) {
+                let color = '';
+                switch (status) {
+                    case 1: color = 'green'; break;
+                    case 2:
+                    case 3: color = 'yellow'; break;
+                    case 4: color = 'red'; break;
+                }
+                return color;
+            },
             getEmployees: async function () {
                 let resp = await axios.get('/Enterprise/GetEmployees');
                 this.employees = resp.data;
             },
 
-            showAddEmp:function(){
-                this.showEmp=true;
+            showAddEmp: function () {
+                this.showEmp = true;
             },
 
-            checkIsInvalid:function(){
-                let arrInput = formEmployee.querySelectorAll("[required], [pattern]");
-                let isInvalid=false;
+            checkIsInvalid: function () {
+                let arrInput = formTable.querySelectorAll("[required], [pattern]");
+                let isInvalid = false;
                 for (let inp of arrInput) {
-                    if(inp.checkValidity()){
-                        inp.style.borderBottom= "1px solid #36c6d3";
-                    }else{
-                        inp.style.borderBottom= "1px solid red";
+                    if (inp.checkValidity()) {
+                        inp.style.borderBottom = "1px solid #36c6d3";
+                    } else {
+                        inp.style.borderBottom = "1px solid red";
                         isInvalid = true;
                     }
                 }
                 return isInvalid;
             },
-            saveEmployee:async function(){
-                if(this.checkIsInvalid()){
-
+            saveEmployee: async function () {
+                if (this.checkIsInvalid()) {
+                    alert('Hello')
                     return;
                 }
-                let resp = await axios.post('/Enterprise/SaveEmployee', this.emp);
-                alert(resp.data);
+                // let resp = await axios.post('/Enterprise/SaveEmployee', this.emp);
+                // alert(resp.data);
             },
 
-            closeWinEmp:function(){
-                formEmployee.reset(); 
-                this.showEmp=false;
+            closeWinEmp: function () {
+                formEmployee.reset();
+                this.showEmp = false;
             },
             getPositions: async function () {
                 let resp = await axios.get('/Enterprise/GetPositions');
                 this.positions = resp.data;
-                this.emp.positionId= this.positions[0].id
+                this.emp.positionId = this.positions[0].id
             },
-            
+
         }
 
     })

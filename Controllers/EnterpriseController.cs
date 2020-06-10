@@ -27,7 +27,8 @@ namespace eShop.Controllers
             var lstEmployees = employees.Select(x=>new{
                 x.Name, x.SurName, x.MiddleName, x.FullName,
                 x.IIN, x.PositionId, PositionName = x.Position.Name,
-                FromDate = x.FromDate.ToShortDateString(), x.StatusWork, StatusName = x.StatusWork.GetDescription()
+                FromDate = x.FromDate.ToShortDateString(), x.StatusWork, StatusName = x.StatusWork.GetDescription(),
+                IsEdit = false
             });
             return Json(lstEmployees);
         }
