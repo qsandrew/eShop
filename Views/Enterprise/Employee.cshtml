@@ -278,7 +278,7 @@
             Добавить
             <i class="fa fa-plus"></i>
         </button>
-        <form id="formTable" action="javascript:alert('h');">
+        <form id="formTable" action="javascript:;">
             <table>
                 <thead>
                     <tr>
@@ -372,7 +372,7 @@
             </table>
         </form>
         <div style="margin-top: 10px; text-align: right;">
-            <button class="btn outBlue" v-on:click="addRow();"><i class="fa fa-plus"></i> Добавить</button>
+            <button class="btn outBlue" v-if="btn.shAdd" v-on:click="addRow();"><i class="fa fa-plus"></i> Добавить</button>
         </div>
 
     </div>
@@ -380,15 +380,15 @@
 
 @section Scripts{
 
-<!-- <script src="/vuejs-datepicker.min.js"></script> -->
+
 <script>
     const app = new Vue({
         el: '#app',
-        // components: {
-        //     vuejsDatepicker
-        // },
         data: {
             showEmp: false,
+            btn:{
+               shAdd:true, 
+            },
             employees: [],
             positions: [],
             emp: {
@@ -409,13 +409,21 @@
         },
 
         methods: {
-            addRow() {
+            reloadEmployee(){
+                this.getEmployees();
                 this.emp = { surName: '', name: '', middleName: '', iin: '', positionId: 1, fromDate: '', statusWork: 1, isEdit: true }
-                this.employees.push(this.emp)
+                this.btn.shAdd=true;
+
+            },
+            addRow() {
+                this.emp = { surName: '', name: '', middleName: '', iin: '', positionId: 1, fromDate: '', statusWork: 1, isEdit: true };
+                this.employees.push(this.emp);
+                this.btn.shAdd=false;
             },
             deleteRow() {
                 this.emp = { surName: '', name: '', middleName: '', iin: '', positionId: 1, fromDate: '', statusWork: 1, isEdit: true }
                 this.employees.pop();
+                this.btn.shAdd=true;
             },
 
             setStatuslbl(status) {
@@ -450,13 +458,16 @@
                 }
                 return isInvalid;
             },
-            saveEmployee: async function () {
+            saveEmployee: function () {
                 if (this.checkIsInvalid()) {
-                    alert('Hello')
                     return;
                 }
-                // let resp = await axios.post('/Enterprise/SaveEmployee', this.emp);
-                // alert(resp.data);
+                axios.post('/Enterprise/SaveEmployee', this.emp)
+                    .then(resp=>{
+                        this.reloadEmployee();
+                        alert(resp.data);
+                    })
+                    .catch(error => {console.log(error);});
             },
 
             closeWinEmp: function () {

@@ -46,7 +46,7 @@ namespace eShop.Controllers
                 _db.Employees.Add(emp);
             }
             _db.SaveChanges();
-            return Json("Ok");
+            return Json("Запись успешно сохранена");
             //bl.SaveEmployee(_db, )
         }
     }
