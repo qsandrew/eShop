@@ -324,8 +324,8 @@
                             <td> <span style="padding: 3px;"
                                     v-bind:class="setStatuslbl(empl.statusWork)">{{empl.statusName}}</span></td>
                             <td>
-                                <button class="btn outPurple"><i class="fa fa-pencil"></i></button>
-                                <button class="btn outBlack"><i class="fa fa-trash"></i></button>
+                                <button class="btn outPurple" v-on:click="editRow(empl)"><i class="fa fa-pencil"></i></button>
+                                <button class="btn outBlack" type="button" v-on:click="deleteEmployee(empl)"><i class="fa fa-trash"></i></button>
 
                             </td>
                         </template>
@@ -361,7 +361,7 @@
                                 </select>
                             </td>
                             <td>
-                                <button class="btn outRed" v-on:click="deleteRow()"><i
+                                <button class="btn outRed" type="button" v-on:click="deleteRow(empl)"><i
                                         class="fa fa-eraser"></i></button>
                                 <button class="btn outBlue" v-on:click="saveEmployee()"><i
                                         class="fa fa-check"></i></button>
@@ -392,6 +392,7 @@
             employees: [],
             positions: [],
             emp: {
+                id:0,
                 surName: '',
                 name: '',
                 middleName: '',
@@ -411,19 +412,45 @@
         methods: {
             reloadEmployee(){
                 this.getEmployees();
-                this.emp = { surName: '', name: '', middleName: '', iin: '', positionId: 1, fromDate: '', statusWork: 1, isEdit: true }
+                this.emp = {id:0, surName: '', name: '', middleName: '', iin: '', positionId: 1, fromDate: '', statusWork: 1, isEdit: true }
                 this.btn.shAdd=true;
 
             },
+            deleteEmployee(empl){
+                let isDel = confirm("Удалить запись?");
+                if(isDel){
+                    this.emp = empl;
+                    const [day, month, year] = this.emp.fromDate.split(".");
+                    this.emp.fromDate=year+'-'+month+'-'+day;
+                    axios.post('/Enterprise/DeleteEmployee', this.emp)
+                    .then(resp=>{
+                        this.reloadEmployee();
+                        alert(resp.data);
+                    })
+                    .catch(error => {console.log(error);});  
+                }
+            },
+            editRow(empl){
+                this.btn.shAdd = false;
+                empl.isEdit=true;
+                this.emp = Object.assign({}, empl);
+                const [day, month, year] = this.emp.fromDate.split(".");
+                 this.emp.fromDate=year+'-'+month+'-'+day;
+                
+            },
             addRow() {
-                this.emp = { surName: '', name: '', middleName: '', iin: '', positionId: 1, fromDate: '', statusWork: 1, isEdit: true };
+                this.emp = {id:0, surName: '', name: '', middleName: '', iin: '', positionId: 1, fromDate: '', statusWork: 1, isEdit: true };
                 this.employees.push(this.emp);
                 this.btn.shAdd=false;
             },
-            deleteRow() {
-                this.emp = { surName: '', name: '', middleName: '', iin: '', positionId: 1, fromDate: '', statusWork: 1, isEdit: true }
+            deleteRow(empl) {
+                this.btn.shAdd = true;
+                if(empl.id!=0){
+                    empl.isEdit=false;
+                    return;
+                }
+                this.emp = {id:0, surName: '', name: '', middleName: '', iin: '', positionId: 1, fromDate: '', statusWork: 1, isEdit: true }
                 this.employees.pop();
-                this.btn.shAdd=true;
             },
 
             setStatuslbl(status) {
@@ -462,6 +489,7 @@
                 if (this.checkIsInvalid()) {
                     return;
                 }
+                
                 axios.post('/Enterprise/SaveEmployee', this.emp)
                     .then(resp=>{
                         this.reloadEmployee();
