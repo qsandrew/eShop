@@ -292,18 +292,18 @@
                     </tr>
                     <tr>
                         <th></th>
-                        <th><input type="text"></th>
-                        <th><input type="text"></th>
+                        <th><input v-on:keyup.enter="reloadEmployee()" v-model="empFilter.fio" type="text"></th>
+                        <th><input v-on:keyup.enter="reloadEmployee()" v-model="empFilter.iin" type="text"></th>
                         <th>
-                            <select>
-                                <option></option>
+                            <select v-on:change="reloadEmployee()" v-model.number="empFilter.positionId">
+                                <option value="0"></option>
                                 <option v-for="p in positions" v-bind:value="p.id">{{p.name}}</option>
                             </select>
                         </th>
                         <th></th>
                         <th>
-                            <select>
-                                <option></option>
+                            <select v-on:change="reloadEmployee()" v-model.number="empFilter.status">
+                                <option value="0" ></option>
                                 <option value="1">Работает</option>
                                 <option value="2">Отпуск</option>
                                 <option value="3">Болеет</option>
@@ -324,7 +324,7 @@
                             <td> <span style="padding: 3px;"
                                     v-bind:class="setStatuslbl(empl.statusWork)">{{empl.statusName}}</span></td>
                             <td>
-                                <button class="btn outPurple" v-on:click="editRow(empl)"><i class="fa fa-pencil"></i></button>
+                                <button class="btn outPurple" type="button" v-on:click="editRow(empl)"><i class="fa fa-pencil"></i></button>
                                 <button class="btn outBlack" type="button" v-on:click="deleteEmployee(empl)"><i class="fa fa-trash"></i></button>
 
                             </td>
@@ -391,6 +391,12 @@
             },
             employees: [],
             positions: [],
+            empFilter:{
+                fio:'',
+                iin:'',
+                positionId:0,
+                status:0
+            },
             emp: {
                 id:0,
                 surName: '',
@@ -464,7 +470,7 @@
                 return color;
             },
             getEmployees: async function () {
-                let resp = await axios.get('/Enterprise/GetEmployees');
+                let resp = await axios.post('/Enterprise/GetEmployees', this.empFilter);
                 this.employees = resp.data;
             },
 

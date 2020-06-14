@@ -20,12 +20,33 @@ namespace eShop.Controllers
         {
             return View();
         }
-        [HttpGet]
-        public IActionResult GetEmployees()
+        public class EmpFilter{
+            public string Fio {get;set;}
+            public string IIN {get;set;}
+            public int PositionId{get;set;}
+            public StatusWork Status{get;set;}
+        }
+        [HttpPost]
+        public IActionResult GetEmployees([FromBody]EmpFilter empFilter)
         {
-            var employees = _db.Employees.Include(x => x.Position).OrderBy(x => x.SurName);
+            var employees = _db.Employees.Include(x => x.Position).AsQueryable();
 
-            var lstEmployees = employees.Select(x => new
+            if(!string.IsNullOrEmpty(empFilter.Fio)){
+                employees = employees.Where(x=>x.SurName.Contains(empFilter.Fio));
+            }
+             if(!string.IsNullOrEmpty(empFilter.IIN)){
+                employees = employees.Where(x=>x.IIN.Contains(empFilter.IIN));
+            }
+            if(empFilter.PositionId!=0){
+                employees = employees.Where(x=>x.PositionId==empFilter.PositionId);
+            }
+             if(empFilter.Status!=0){
+                employees = employees.Where(x=>x.StatusWork==empFilter.Status);
+            }
+
+            var lst = employees.OrderBy(x => x.SurName);
+
+            var lstEmployees = lst.Select(x => new
             {
                 x.Id,
                 x.Name,
@@ -39,7 +60,7 @@ namespace eShop.Controllers
                 x.StatusWork,
                 StatusName = x.StatusWork.GetDescription(),
                 IsEdit = false
-            });
+            }).ToList();
             return Json(lstEmployees);
         }
 
