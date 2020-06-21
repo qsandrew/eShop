@@ -162,6 +162,10 @@
         background-color: rgba(0, 0, 0, 0.4);
 
     }
+    .loading{
+        text-align: center; top: 50%; position: relative; transform: translateY(-50%);
+    }
+   
 
     .modal-content {
         box-sizing: border-box;
@@ -270,7 +274,9 @@
     </div>
 
 
-
+    <div class="modal" v-show="isLoading">
+        <h3 class="loading">Загрузка...</h3>
+    </div>
 
     <div class="title"><i class="fa fa-comments"></i> Сотрудники</div>
     <div class="body">
@@ -385,6 +391,7 @@
     const app = new Vue({
         el: '#app',
         data: {
+            isLoading:false,
             showEmp: false,
             btn:{
                shAdd:true, 
@@ -420,7 +427,6 @@
                 this.getEmployees();
                 this.emp = {id:0, surName: '', name: '', middleName: '', iin: '', positionId: 1, fromDate: '', statusWork: 1, isEdit: true }
                 this.btn.shAdd=true;
-
             },
             deleteEmployee(empl){
                 let isDel = confirm("Удалить запись?");
