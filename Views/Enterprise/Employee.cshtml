@@ -224,59 +224,6 @@
 <div id="app" class="card">
 
 
-    <div class="modal" v-show="showEmp">
-        <div class="modal-content">
-            <h3>Добавить сотрудника</h3>
-            <form id="formEmployee" class="mtForm">
-
-                <label>Фамилия
-                    <input type="text" v-model="emp.surName" required placeholder="Введите фамилию">
-                </label>
-                <label>Имя
-                    <input type="text" v-model="emp.name" required placeholder="Введите имя">
-                </label>
-                <label>Отчество
-                    <input type="text" v-model="emp.middleName" placeholder="Введите отчество (необ.)">
-                </label>
-                <label>ИИН
-                    <input type="text" v-model="emp.iin" required pattern="[0-9]{12}" maxlength="12"
-                        placeholder="Введите ИИН (12 цифр)">
-                </label>
-                <label>Должность
-                    <select v-model="emp.positionId">
-                        <option disabled>Выберите должность</option>
-                        <option v-for="p in positions" v-bind:value="p.id">{{p.name}}</option>
-                    </select>
-                </label>
-
-                <label>Работает с
-
-                    <input v-model="emp.fromDate" type="date" required placeholder="Введите дату">
-                </label>
-                <!-- <vuejs-datepicker  v-model="emp.fromDate"></vuejs-datepicker> -->
-                <label>Статус
-                    <select v-model.number=emp.statusWork>
-                        <option value="1">Работает</option>
-                        <option value="2">Отпуск</option>
-                        <option value="3">Болеет</option>
-                        <option value="4">Уволен</option>
-                    </select>
-                </label>
-            </form>
-            <hr />
-            <div style="margin: 10px; text-align: right;">
-                <button class="btn outBlack" v-on:click="closeWinEmp()">Отмена</button>
-                <button class="btn green" v-on:click="saveEmployee()">Сохранить</button>
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="modal" v-show="isLoading">
-        <h3 class="loading">Загрузка...</h3>
-    </div>
 
     <div class="title"><i class="fa fa-comments"></i> Сотрудники</div>
     <div class="body">
@@ -391,7 +338,6 @@
     const app = new Vue({
         el: '#app',
         data: {
-            isLoading:false,
             showEmp: false,
             btn:{
                shAdd:true, 

@@ -1,9 +1,8 @@
 using System.Linq;
-using eShop.BL;
 using eShop.Models;
 using eShop.Models.Common;
-using eShop.Models.Enterprise;
-using eShop.Models.Enterprise.Reference;
+using eShop.Models.EntInfo;
+using eShop.Models.EntInfo.Reference;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
