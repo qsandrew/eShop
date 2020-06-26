@@ -5,14 +5,17 @@ using eShop.Models.EntInfo;
 using eShop.Models.EntInfo.Reference;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace eShop.Controllers
 {
     public class EnterpriseController : Controller
     {
         private IasContext _db;
-        public EnterpriseController(IasContext context)
+         private readonly ILogger<HomeController> _logger;
+        public EnterpriseController(IasContext context,ILogger<HomeController> logger)
         {
+             _logger = logger;
             _db = context;
         }
         public IActionResult Employee()
