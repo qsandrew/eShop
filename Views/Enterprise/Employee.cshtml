@@ -192,34 +192,6 @@
     }
 </style>
 
-<!-- MaterialDesign Style -->
-<style>
-    .mtForm {
-        margin: 0 40px;
-    }
-
-    .mtForm label {
-        color: #36c6d3;
-        display: block;
-        margin-bottom: 10px;
-    }
-
-    .mtForm input,
-    .mtForm select,
-    .mtForm textarea {
-        border: 0;
-        border-bottom: 1px solid #c2cad8;
-        outline: none;
-        width: 100%;
-        padding-left: 0;
-    }
-
-    .mtForm input:focus,
-    .mtForm select:focus,
-    .mtForm textarea:focus {
-        border-bottom: 1px solid #36c6d3;
-    }
-</style>
 
 <div id="app" class="card">
 
@@ -227,10 +199,6 @@
 
     <div class="title"><i class="fa fa-comments"></i> Сотрудники</div>
     <div class="body">
-        <button style="display: none;" style="margin-bottom: 10px;" class="btn green" v-on:click="showAddEmp()">
-            Добавить
-            <i class="fa fa-plus"></i>
-        </button>
         <form id="formTable" action="javascript:;">
             <table>
                 <thead>

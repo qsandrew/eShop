@@ -1,0 +1,90 @@
+/* global style */
+.btn {
+    padding: 5px;
+    border: 1px solid transparent;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+input[type=text],
+select {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+
+/* global color */
+.green {
+    color: #FFF;
+    background-color: #32c5d2;
+    border-color: #32c5d2;
+}
+
+.red {
+    color: #FFF;
+    background-color: #ed6b75;
+    border-color: #ed6b75;
+}
+
+.yellow {
+    color: #fff;
+    background-color: #F1C40F;
+    background-color: #F1C40F;
+}
+
+.green:hover {
+    background-color: #26a1ab;
+    border-color: #26a1ab;
+
+}
+
+.outBlack {
+    border: 1px solid #2f353b;
+    color: #2f353b;
+    background: transparent;
+}
+
+.outBlack:hover {
+    border-color: #2f353b;
+    color: #fff;
+    background: #2f353b;
+}
+
+.outPurple {
+    border-color: #8E44AD;
+    color: #8E44AD;
+    background: transparent;
+}
+
+.outPurple:hover {
+    border-color: #8E44AD;
+    color: #fff;
+    background: #8E44AD;
+}
+
+.outBlue {
+    color: #3598dc;
+    background-color: transparent;
+    border-color: #3598dc;
+}
+
+.outBlue:hover {
+    color: #FFF;
+    background-color: #3598dc;
+    border-color: #3598dc;
+}
+
+.outRed {
+    color: #e43a45;
+    background-color: transparent;
+    border-color: #e43a45;
+}
+
+.outRed:hover {
+    color: #fff;
+    background-color: #e43a45;
+    border-color: #e43a45;
+}
