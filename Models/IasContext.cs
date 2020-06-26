@@ -20,7 +20,7 @@ namespace eShop.Models
                 .IsUnique();
 
             builder.Entity<Enterprise>()
-                .HasIndex(e => e.BIN)
+                .HasIndex(e => e.XIN)
                 .IsUnique();
                 
         }
