@@ -27,7 +27,7 @@ namespace eShop
         {
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<IasContext>(options =>options.UseSqlServer(connectionString));
+            services.AddDbContext<IasContext>(options =>options.UseSqlServer(connectionString).EnableSensitiveDataLogging());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

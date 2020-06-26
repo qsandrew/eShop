@@ -6,42 +6,50 @@ using eShop.Models.Enterprise;
 using eShop.Models.Enterprise.Reference;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace eShop.Controllers
 {
     public class EnterpriseController : Controller
     {
         private IasContext _db;
-        public EnterpriseController(IasContext context)
+        private readonly ILogger<HomeController> _logger;
+        public EnterpriseController(IasContext context, ILogger<HomeController> logger)
         {
             _db = context;
+            _logger = logger;
         }
         public IActionResult Employee()
         {
             return View();
         }
-        public class EmpFilter{
-            public string Fio {get;set;}
-            public string IIN {get;set;}
-            public int PositionId{get;set;}
-            public StatusWork Status{get;set;}
+        public class EmpFilter
+        {
+            public string Fio { get; set; }
+            public string IIN { get; set; }
+            public int PositionId { get; set; }
+            public StatusWork Status { get; set; }
         }
         [HttpPost]
-        public IActionResult GetEmployees([FromBody]EmpFilter empFilter)
+        public IActionResult GetEmployees([FromBody] EmpFilter empFilter)
         {
             var employees = _db.Employees.Include(x => x.Position).AsQueryable();
 
-            if(!string.IsNullOrEmpty(empFilter.Fio)){
-                employees = employees.Where(x=>x.SurName.Contains(empFilter.Fio));
+            if (!string.IsNullOrEmpty(empFilter.Fio))
+            {
+                employees = employees.Where(x => x.SurName.Contains(empFilter.Fio));
             }
-             if(!string.IsNullOrEmpty(empFilter.IIN)){
-                employees = employees.Where(x=>x.IIN.Contains(empFilter.IIN));
+            if (!string.IsNullOrEmpty(empFilter.IIN))
+            {
+                employees = employees.Where(x => x.IIN.Contains(empFilter.IIN));
             }
-            if(empFilter.PositionId!=0){
-                employees = employees.Where(x=>x.PositionId==empFilter.PositionId);
+            if (empFilter.PositionId != 0)
+            {
+                employees = employees.Where(x => x.PositionId == empFilter.PositionId);
             }
-             if(empFilter.Status!=0){
-                employees = employees.Where(x=>x.StatusWork==empFilter.Status);
+            if (empFilter.Status != 0)
+            {
+                employees = employees.Where(x => x.StatusWork == empFilter.Status);
             }
 
             var lst = employees.OrderBy(x => x.SurName);
