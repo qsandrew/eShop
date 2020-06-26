@@ -2,9 +2,9 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using eShop.Models.Common;
-using eShop.Models.Enterprise.Reference;
+using eShop.Models.EntInfo.Reference;
 
-namespace eShop.Models.Enterprise
+namespace eShop.Models.EntInfo
 {
     public class Employee : Base
     {

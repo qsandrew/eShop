@@ -1,9 +1,8 @@
 using System.Linq;
-using eShop.BL;
 using eShop.Models;
 using eShop.Models.Common;
-using eShop.Models.Enterprise;
-using eShop.Models.Enterprise.Reference;
+using eShop.Models.EntInfo;
+using eShop.Models.EntInfo.Reference;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -13,9 +12,15 @@ namespace eShop.Controllers
     public class EnterpriseController : Controller
     {
         private IasContext _db;
+<<<<<<< HEAD
         private readonly ILogger<HomeController> _logger;
         public EnterpriseController(IasContext context, ILogger<HomeController> logger)
+=======
+         private readonly ILogger<HomeController> _logger;
+        public EnterpriseController(IasContext context,ILogger<HomeController> logger)
+>>>>>>> 943e2483f353d183d8e5e4d2f29bcf34f179c849
         {
+             _logger = logger;
             _db = context;
             _logger = logger;
         }

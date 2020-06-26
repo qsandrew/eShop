@@ -1,5 +1,5 @@
-using eShop.Models.Enterprise;
-using eShop.Models.Enterprise.Reference;
+using eShop.Models.EntInfo;
+using eShop.Models.EntInfo.Reference;
 using Microsoft.EntityFrameworkCore;
 
 namespace eShop.Models
@@ -11,12 +11,18 @@ namespace eShop.Models
         { }
         public DbSet<Position> Positions { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Enterprise> Enterprises {get;set;}
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Employee>()
                 .HasIndex(e => e.IIN)
                 .IsUnique();
+
+            builder.Entity<Enterprise>()
+                .HasIndex(e => e.BIN)
+                .IsUnique();
+                
         }
     }
 

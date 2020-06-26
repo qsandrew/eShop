@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using eShop.Models.Common;
 
-namespace eShop.Models.Enterprise.Reference
+namespace eShop.Models.EntInfo.Reference
 {
     public class Position : Base
     {
