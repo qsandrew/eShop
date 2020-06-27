@@ -10,6 +10,7 @@ namespace eShop.Models.EntInfo
         public string XIN { get; set; }
 
         public EnterpriseType EnterpriseType {get;set;}
+        
     }
 
     public enum EnterpriseType

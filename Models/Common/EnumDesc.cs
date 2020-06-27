@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 
@@ -20,5 +21,23 @@ namespace eShop.Models.Common
 
             return enumElement.ToString();
         }
+        public static List<IdName> GetDictEnum<T>() where T : Enum
+        {
+            var lstEnum = (T[])Enum.GetValues(typeof(T));
+            List<IdName> idNames = new List<IdName>();
+
+            foreach(var en in lstEnum){
+                var name = en.GetDescription();
+                var key =  Convert.ToInt32(en);
+                idNames.Add(new IdName{Id = key, Name = name});
+            }
+            return idNames;
+        }
+    }
+
+    public class IdName{
+        public int Id {get;set;}
+        public string Name {get;set;}
+        
     }
 }
