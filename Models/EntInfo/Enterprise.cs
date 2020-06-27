@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using eShop.Models.Common;
+using Microsoft.AspNetCore.Http;
 
 namespace eShop.Models.EntInfo
 {
@@ -8,9 +9,12 @@ namespace eShop.Models.EntInfo
     {
         [MaxLength(12), MinLength(12)]
         public string XIN { get; set; }
-
         public EnterpriseType EnterpriseType {get;set;}
-        
+        public string Manager {get;set;}
+        public string Address {get;set;}
+        public string Phone {get;set;}
+        public  string Email {get;set;}
+        public string DocPath {get;set;}
     }
 
     public enum EnterpriseType

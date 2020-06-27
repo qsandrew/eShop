@@ -3,19 +3,20 @@ Layout="../Shared/_Login.cshtml";
 }
 <link rel="stylesheet" href="/css/material.css">
 <div id="app" style="background-color:#fff; width: 400px;">
-    <h3 style="text-align: center;">Регистрация хозяйства</h3>
-    <form id="formEmployee" class="mtForm">
+    <h3 style="text-align: center; color: #32C5D2">Регистрация хозяйства</h3>
+    <form id="formEmployee" class="mtForm" action="javascript:;">
 
-        <label>БИН/ИИН
-            <input type="text" required placeholder="Введите фамилию">
+        <label>БИН/ИИН<span style="color: red;">*</span>
+            <input v-model="ent.xin" pattern="[0-9]{12}" type="text" v-mask="'############'" required
+                placeholder="Введите ИИН/БИН">
         </label>
-        <label>Тип хозяйства
-            <select>
+        <label>Тип хозяйства<span style="color: red;">*</span>
+            <select required v-model="ent.type">
                 <option v-for="e in entTypes" v-bind:value="e.id">{{e.name}}</option>
             </select>
         </label>
-        <label>Организационная форма
-            <select>
+        <label>Организационная форма<span style="color: red;">*</span>
+            <select required v-model="ent.form">
                 <option value="АО">Акционерное общество</option>
                 <option value="ТОО">Товарищество с ограниченной ответственностью</option>
                 <option value="ИП">Индивидуальный предприниматель</option>
@@ -25,21 +26,105 @@ Layout="../Shared/_Login.cshtml";
                 <option value="КТ">Коммандитное товарищество</option>
             </select>
         </label>
+        <label>Наименование<span style="color: red;">*</span>
+            <input v-model="ent.name" type="text" required placeholder="Введите наименование">
+        </label>
+        <label>Руководитель<span style="color: red;">*</span>
+            <input v-model="ent.manager" type="text" required placeholder="Введите ФИО руководителя">
+        </label>
+        <label>ИИН руководителя<span style="color: red;">*</span>
+            <input v-model="ent.managerIin" pattern="[0-9]{12}" type="text" v-mask="'############'" required placeholder="Введите ИИН руководителя">
+        </label>
+        <label>Адрес<span style="color: red;">*</span>
+            <textarea v-model="ent.address" rows="3" required placeholder="Введите адрес">
+
+            </textarea>
+        </label>
+        <label>Телефон<span style="color: red;">*</span>
+            <input type="text" v-mask="'+7 (###) ### ##-##'" v-model="ent.phone" required
+                placeholder="+7 (999) 999 99-99">
+        </label>
+        <label>Email<span style="color: red;">*</span>
+            <input v-model="ent.email" type="email" required placeholder="Введите email">
+        </label>
+        <label>Документ<span style="color: red;">*</span>
+            <input type="file" v-on:change="selectFile($event.target.files)" >
+        </label>
+
+        <div style="text-align: center; margin-bottom: 20px;">
+            <button class="btn green" v-on:click="saveEnterprise()">Зарегистрировать</button>
+        </div>
     </form>
 </div>
 
 
 @section Scripts{
 <script>
+    Vue.use(VueMask.VueMaskPlugin);
     let app = new Vue({
         el: '#app',
         data: {
             entTypes: [],
+            ent: {
+                xin: '',
+                type: '',
+                form: '',
+                name: '',
+                manager: '',
+                managerIin:'',
+                address: '',
+                phone: '',
+                email: '',
+                docFile: '',
+                fileName: ''
+            },
         },
         mounted() {
             this.getEntTypes();
         },
         methods: {
+            selectFile(fileList) {
+
+
+                this.ent.docFile = fileList[0];
+                this.ent.fileName = fileList[0].name;
+            },
+            checkIsInvalid: function () {
+                let arrInput = formEmployee.querySelectorAll("[required], [pattern]");
+                let isInvalid = false;
+                for (let inp of arrInput) {
+                    if (inp.checkValidity()) {
+                        inp.style.borderBottom = "1px solid #36c6d3";
+                    } else {
+                        inp.style.borderBottom = "1px solid red";
+                        isInvalid = true;
+                    }
+                }
+                return isInvalid;
+            },
+            saveEnterprise: function () {
+                if (this.checkIsInvalid()) {
+                    return;
+                }
+                var formData = new FormData();
+
+                for ( var key in this.ent ) {
+                    formData.append(key, this.ent[key]);
+                }
+               
+                let config = {
+                    headers: {
+                    "Content-Type": "multipart/form-data"
+                    }
+                };
+
+
+                axios.post('/Login/SaveEnterprise', formData, config)
+                .then(resp => {
+                    alert(resp.data)
+                })
+                .catch(error => { console.log(error); });
+            },
             getEntTypes: async function () {
                 let resp = await axios.get('/Login/GetEntTypes');
                 this.entTypes = resp.data;
