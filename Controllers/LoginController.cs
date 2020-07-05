@@ -40,6 +40,15 @@ namespace eShop.Controllers
         [HttpPost]
         public IActionResult SaveEnterprise(EntInfo entInfo)
         {
+            var empIIN = _db.Employees.SingleOrDefault(x=>x.IIN==entInfo.ManagerIin);
+            if(empIIN!=null){
+                return Json("Сотрудник с таким ИИНом уже существует");
+            }
+            var entXin = _db.Enterprises.SingleOrDefault(x=>x.XIN==entInfo.Xin);
+            if(entXin!=null){
+                return Json("Хозяйство с таким БИН/ИИН уже существует");
+            }
+
             //Создаем хозяйство
             var ent = new Enterprise();
             ent.Name = entInfo.Form + " \"" + entInfo.Name + "\"";
@@ -64,22 +73,22 @@ namespace eShop.Controllers
             emp.FromDate = DateTime.Today;
             emp.StatusWork = StatusWork.Work;
 
-            //_db.Employees.Add(emp);
-            // _db.Enterprises.Add(ent);
-            // _db.SaveChanges();
-
-            // if (entInfo.DocFile != null)
-            // {
-            //     // путь к папке Files
-            //     string path = "/Files/" + uploadedFile.FileName;
-            //     // сохраняем файл в папку Files в каталоге wwwroot
-            //     using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
-            //     {
-            //          entInfo.DocFile.CopyTo(fileStream);
-            //     }
-            // }
-
-            return Json("Ок");
+            _db.Employees.Add(emp);
+            _db.Enterprises.Add(ent);
+             _db.SaveChanges();
+            if (entInfo.DocFile != null)
+            {
+                // путь к папке Files
+                string path = "/Enterprise/" + ent.Id+"/RegistrationDoc"+ Path.GetExtension(entInfo.DocFile.FileName);
+                // сохраняем файл в папку Files в каталоге wwwroot
+                Directory.CreateDirectory(_appEnvironment.WebRootPath + "/Enterprise/" + ent.Id+"/");
+                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                {
+                     entInfo.DocFile.CopyTo(fileStream);
+                }
+            }
+           
+            return Json("Вы успешно зарегистрированы. Попробуйте зайти на сайт");
         }
         public class EntInfo
         {

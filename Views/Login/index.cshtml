@@ -2,58 +2,79 @@
 Layout="../Shared/_Login.cshtml";
 }
 <link rel="stylesheet" href="/css/material.css">
-<div id="app" style="background-color:#fff; width: 400px;">
+<div id="app" style="background-color:#fff; width: 500px;">
     <h3 style="text-align: center; color: #32C5D2">Регистрация хозяйства</h3>
     <form id="formEmployee" class="mtForm" action="javascript:;">
+        <div style="display: flex;">
 
-        <label>БИН/ИИН<span style="color: red;">*</span>
-            <input v-model="ent.xin" pattern="[0-9]{12}" type="text" v-mask="'############'" required
-                placeholder="Введите ИИН/БИН">
-        </label>
-        <label>Тип хозяйства<span style="color: red;">*</span>
-            <select required v-model="ent.type">
-                <option v-for="e in entTypes" v-bind:value="e.id">{{e.name}}</option>
-            </select>
-        </label>
-        <label>Организационная форма<span style="color: red;">*</span>
-            <select required v-model="ent.form">
-                <option value="АО">Акционерное общество</option>
-                <option value="ТОО">Товарищество с ограниченной ответственностью</option>
-                <option value="ИП">Индивидуальный предприниматель</option>
-                <option value="КХ">Крестьянское хозяйство</option>
-                <option value="СХК">Сельско-хозяйственный кооператив</option>
-                <option value="ФЛ">Физическое лицо</option>
-                <option value="КТ">Коммандитное товарищество</option>
-            </select>
-        </label>
-        <label>Наименование<span style="color: red;">*</span>
-            <input v-model="ent.name" type="text" required placeholder="Введите наименование">
-        </label>
-        <label>Руководитель<span style="color: red;">*</span>
-            <input v-model="ent.manager" type="text" required placeholder="Введите ФИО руководителя">
-        </label>
-        <label>ИИН руководителя<span style="color: red;">*</span>
-            <input v-model="ent.managerIin" pattern="[0-9]{12}" type="text" v-mask="'############'" required placeholder="Введите ИИН руководителя">
-        </label>
-        <label>Адрес<span style="color: red;">*</span>
-            <textarea v-model="ent.address" rows="3" required placeholder="Введите адрес">
 
-            </textarea>
-        </label>
-        <label>Телефон<span style="color: red;">*</span>
-            <input type="text" v-mask="'+7 (###) ### ##-##'" v-model="ent.phone" required
-                placeholder="+7 (999) 999 99-99">
-        </label>
-        <label>Email<span style="color: red;">*</span>
-            <input v-model="ent.email" type="email" required placeholder="Введите email">
-        </label>
-        <label>Документ<span style="color: red;">*</span>
-            <input type="file" v-on:change="selectFile($event.target.files)" >
-        </label>
+            <div style="flex: 1;">
+                <label>БИН/ИИН<span style="color: red;">*</span>
+                    <input v-model="ent.xin" pattern="[0-9]{12}" type="text" v-mask="'############'" required
+                        placeholder="Введите ИИН/БИН">
+                </label>
+                <label>Тип хозяйства<span style="color: red;">*</span>
+                    <select required v-model="ent.type">
+                        <option v-for="e in entTypes" v-bind:value="e.id">{{e.name}}</option>
+                    </select>
+                </label>
+                <label>Организационная форма<span style="color: red;">*</span>
+                    <select required v-model="ent.form">
+                        <option value="АО">Акционерное общество</option>
+                        <option value="ТОО">Товарищество с ограниченной ответственностью</option>
+                        <option value="ИП">Индивидуальный предприниматель</option>
+                        <option value="КХ">Крестьянское хозяйство</option>
+                        <option value="СХК">Сельско-хозяйственный кооператив</option>
+                        <option value="ФЛ">Физическое лицо</option>
+                        <option value="КТ">Коммандитное товарищество</option>
+                    </select>
+                </label>
+                <label>Наименование<span style="color: red;">*</span>
+                    <input v-model="ent.name" type="text" required placeholder="Введите наименование">
+                </label>
 
+                <label>Адрес<span style="color: red;">*</span>
+                    <textarea v-model="ent.address" rows="3" required placeholder="Введите адрес">
+
+                </textarea>
+                </label>
+                <label>Телефон<span style="color: red;">*</span>
+                    <input type="text" v-mask="'+7 (###) ### ##-##'" v-model="ent.phone" required
+                        placeholder="+7 (999) 999 99-99">
+                </label>
+                <label>Email<span style="color: red;">*</span>
+                    <input v-model="ent.email" type="email" required placeholder="Введите email">
+                </label>
+                <label>Документ<span style="color: red;">*</span>
+                    <input type="file" v-on:change="selectFile($event.target.files)">
+                </label>
+
+
+            </div>
+            <div style="width: 20px;">
+
+            </div>
+            <div style="flex: 1;">
+                <label>Руководитель<span style="color: red;">*</span>
+                    <input v-model="ent.manager" type="text" required placeholder="Введите ФИО руководителя">
+                </label>
+                <label>ИИН руководителя<span style="color: red;">*</span>
+                    <input v-model="ent.managerIin" pattern="[0-9]{12}" type="text" v-mask="'############'" required
+                        placeholder="Введите ИИН руководителя">
+                </label>
+
+                <label>Логин<span style="color: red;">*</span>
+                    <input v-model="ent.login" pattern="[0-9a-z]{5,}" type="text" required placeholder="Введите логин">
+                </label>
+                <label>Пароль<span style="color: red;">*</span>
+                    <input v-model="ent.password" pattern="[0-9a-z]{5,}" type="text" required placeholder="Введите пароль">
+                </label>
+            </div>
+        </div>
         <div style="text-align: center; margin-bottom: 20px;">
             <button class="btn green" v-on:click="saveEnterprise()">Зарегистрировать</button>
         </div>
+
     </form>
 </div>
 
@@ -66,12 +87,14 @@ Layout="../Shared/_Login.cshtml";
         data: {
             entTypes: [],
             ent: {
+                login:'',
+                password:'',
                 xin: '',
                 type: '',
                 form: '',
                 name: '',
                 manager: '',
-                managerIin:'',
+                managerIin: '',
                 address: '',
                 phone: '',
                 email: '',
@@ -108,22 +131,23 @@ Layout="../Shared/_Login.cshtml";
                 }
                 var formData = new FormData();
 
-                for ( var key in this.ent ) {
+                for (var key in this.ent) {
                     formData.append(key, this.ent[key]);
                 }
-               
+
                 let config = {
                     headers: {
-                    "Content-Type": "multipart/form-data"
+                        "Content-Type": "multipart/form-data"
                     }
                 };
 
 
                 axios.post('/Login/SaveEnterprise', formData, config)
-                .then(resp => {
-                    alert(resp.data)
-                })
-                .catch(error => { console.log(error); });
+                    .then(resp => {
+
+                        alert(resp.data)
+                    })
+                    .catch(error => { console.log(error); });
             },
             getEntTypes: async function () {
                 let resp = await axios.get('/Login/GetEntTypes');

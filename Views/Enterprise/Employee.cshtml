@@ -419,6 +419,7 @@
                 axios.post('/Enterprise/SaveEmployee', this.emp)
                     .then(resp=>{
                         this.reloadEmployee();
+                      
                         alert(resp.data);
                     })
                     .catch(error => {console.log(error);});
