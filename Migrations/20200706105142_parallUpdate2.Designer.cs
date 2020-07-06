@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eShop.Models;
 
 namespace eShop.Migrations
 {
     [DbContext(typeof(IasContext))]
-    partial class IasContextModelSnapshot : ModelSnapshot
+    [Migration("20200706105142_parallUpdate2")]
+    partial class parallUpdate2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,7 +67,6 @@ namespace eShop.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("SurName")
-                        .IsConcurrencyToken()
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

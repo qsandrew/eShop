@@ -66,7 +66,8 @@ namespace eShop.Controllers
                 FromDate = x.FromDate.ToShortDateString(),
                 x.StatusWork,
                 StatusName = x.StatusWork.GetDescription(),
-                IsEdit = false
+                IsEdit = false,
+                x.RowVersion
             }).ToList();
             return Json(lstEmployees);
         }
@@ -94,8 +95,19 @@ namespace eShop.Controllers
                 oldEmp.StatusWork = emp.StatusWork;
                 oldEmp.SurName = emp.SurName;
                 oldEmp.FromDate = emp.FromDate;
+                //oldEmp.RowVersion  = emp.RowVersion;
+
+                _db.Entry(oldEmp).Property("RowVersion").OriginalValue = emp.RowVersion;
             }
-            _db.SaveChanges();
+            try
+            {
+                
+                _db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                 return Json("Запись не была сохранена, так как кто-то пытался параллельно её редактировать");
+            }
             return Json("Запись успешно сохранена");
             //bl.SaveEmployee(_db, )
         }
