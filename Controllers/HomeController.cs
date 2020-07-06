@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using eShop.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace eShop.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private IasContext _db;
@@ -20,6 +22,7 @@ namespace eShop.Controllers
 
         public IActionResult Index()
         {
+           
             return View();
         }
 

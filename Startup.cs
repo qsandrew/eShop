@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using eShop.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,7 +28,16 @@ namespace eShop
         {
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<IasContext>(options =>options.UseSqlServer(connectionString).EnableSensitiveDataLogging());
+            services.AddDbContext<IasContext>(options => options.UseSqlServer(connectionString).EnableSensitiveDataLogging());
+
+             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Login/Enter");
+                    options.ExpireTimeSpan = TimeSpan.FromSeconds(30);
+                    //options.ExpireTimeSpan=30000;
+                    options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Login/Enter");
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,7 +58,8 @@ namespace eShop
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseAuthentication();    // аутентификация
+            app.UseAuthorization();  
 
             app.UseEndpoints(endpoints =>
             {

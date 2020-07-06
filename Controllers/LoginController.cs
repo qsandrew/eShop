@@ -1,12 +1,16 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using eShop.Models;
 using eShop.Models.Common;
 using eShop.Models.EntInfo;
 using eShop.Models.EntInfo.Reference;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -41,14 +45,33 @@ namespace eShop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Enter(string Login, string Password)
+        public async Task<IActionResult> Enter(string Login, string Password)
         {
-            var empl = _db.Employees.FirstOrDefault(x=>x.Login == Login && x.Password == Password);
+            var empl = await _db.Employees.Include(x=>x.Position).FirstOrDefaultAsync(x=>x.Login == Login && x.Password == Password);
             if(empl!=null){
+                await Authenticate(empl); 
+                
                 return RedirectToAction("Index","Home");
             }
             ViewBag.Error = "Вы не зарегистрированы либо неверно введен логин/пароль";
             return View();
+        }
+
+
+        private async Task Authenticate(Employee user)
+        {
+            // создаем один claim
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.IIN),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Position.Name),
+                new Claim("EnterpriseId", user.EnterpriseId.ToString())
+            };
+            // создаем объект ClaimsIdentity
+            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType,
+                ClaimsIdentity.DefaultRoleClaimType);
+            // установка аутентификационных куки
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
         [HttpGet]

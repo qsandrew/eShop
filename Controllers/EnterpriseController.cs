@@ -3,12 +3,14 @@ using eShop.Models;
 using eShop.Models.Common;
 using eShop.Models.EntInfo;
 using eShop.Models.EntInfo.Reference;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace eShop.Controllers
 {
+    [Authorize]
     public class EnterpriseController : Controller
     {
         private IasContext _db;
@@ -18,6 +20,7 @@ namespace eShop.Controllers
             _db = context;
             _logger = logger;
         }
+         [Authorize(Roles = "Директор")]
         public IActionResult Employee()
         {
             return View();
@@ -32,7 +35,8 @@ namespace eShop.Controllers
         [HttpPost]
         public IActionResult GetEmployees([FromBody] EmpFilter empFilter)
         {
-            var employees = _db.Employees.Include(x => x.Position).AsQueryable();
+            var entId = int.Parse(User.FindFirst(x => x.Type == "EnterpriseId").Value);
+            var employees = _db.Employees.Include(x => x.Position).Where(x=>x.EnterpriseId==entId).AsQueryable();
 
             if (!string.IsNullOrEmpty(empFilter.Fio))
             {
@@ -55,6 +59,7 @@ namespace eShop.Controllers
 
             var lstEmployees = lst.Select(x => new
             {
+                x.EnterpriseId,
                 x.Id,
                 x.Name,
                 x.SurName,
@@ -83,6 +88,8 @@ namespace eShop.Controllers
         {
             if (emp.Id == 0)
             {
+                var entId = int.Parse(User.FindFirst(x => x.Type == "EnterpriseId").Value);
+                emp.EnterpriseId=entId;
                 _db.Employees.Add(emp);
             }
             else
