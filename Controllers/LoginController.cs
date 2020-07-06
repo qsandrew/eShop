@@ -1,6 +1,8 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using eShop.Models;
 using eShop.Models.Common;
 using eShop.Models.EntInfo;
@@ -8,6 +10,7 @@ using eShop.Models.EntInfo.Reference;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace eShop.Controllers
@@ -40,63 +43,100 @@ namespace eShop.Controllers
         [HttpPost]
         public IActionResult SaveEnterprise(EntInfo entInfo)
         {
-            var empIIN = _db.Employees.SingleOrDefault(x=>x.IIN==entInfo.ManagerIin);
-            if(empIIN!=null){
-                return Json("Сотрудник с таким ИИНом уже существует");
-            }
-            var entXin = _db.Enterprises.SingleOrDefault(x=>x.XIN==entInfo.Xin);
-            if(entXin!=null){
-                return Json("Хозяйство с таким БИН/ИИН уже существует");
-            }
-
-            //Создаем хозяйство
-            var ent = new Enterprise();
-            ent.Name = entInfo.Form + " \"" + entInfo.Name + "\"";
-            ent.XIN = entInfo.Xin;
-            ent.EnterpriseType = entInfo.Type;
-            ent.Manager = entInfo.Manager;
-            ent.Address = entInfo.Address;
-            ent.Phone = entInfo.Phone;
-            ent.Email = entInfo.EMail;
-
-            //Создаем директора
-            var emp = new Employee();
-            string[] fio = entInfo.Manager.Split(' ');
-            emp.SurName = fio[0];
-            emp.Name = fio[1];
-            if (fio.Length == 3)
+            if (ModelState.IsValid)
             {
-                emp.MiddleName = fio[2];
-            }
-            emp.IIN = entInfo.ManagerIin;
-            emp.PositionId=9;
-            emp.FromDate = DateTime.Today;
-            emp.StatusWork = StatusWork.Work;
-
-            _db.Employees.Add(emp);
-            _db.Enterprises.Add(ent);
-             _db.SaveChanges();
-            if (entInfo.DocFile != null)
-            {
-                // путь к папке Files
-                string path = "/Enterprise/" + ent.Id+"/RegistrationDoc"+ Path.GetExtension(entInfo.DocFile.FileName);
-                // сохраняем файл в папку Files в каталоге wwwroot
-                Directory.CreateDirectory(_appEnvironment.WebRootPath + "/Enterprise/" + ent.Id+"/");
-                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                var empIIN = _db.Employees.SingleOrDefault(x => x.IIN == entInfo.ManagerIin);
+                if (empIIN != null)
                 {
-                     entInfo.DocFile.CopyTo(fileStream);
+                    return Json("Сотрудник с таким ИИНом уже существует");
                 }
+                empIIN = _db.Employees.SingleOrDefault(x => x.Login == entInfo.Login);
+                if (empIIN != null)
+                {
+                    return Json("Сотрудник с таким Логином уже существует");
+                }
+                var entXin = _db.Enterprises.SingleOrDefault(x => x.XIN == entInfo.Xin);
+                if (entXin != null)
+                {
+                    return Json("Хозяйство с таким БИН/ИИН уже существует");
+                }
+
+                //Создаем хозяйство
+                var ent = new Enterprise();
+                ent.Name = entInfo.Form + " \"" + entInfo.Name + "\"";
+                ent.XIN = entInfo.Xin;
+                ent.EnterpriseType = entInfo.Type;
+                ent.Manager = entInfo.Manager;
+                ent.Address = entInfo.Address;
+                ent.Phone = entInfo.Phone;
+                ent.Email = entInfo.EMail;
+
+                //Создаем директора
+                var emp = new Employee();
+                string[] fio = entInfo.Manager.Split(' ');
+                emp.SurName = fio[0];
+                emp.Name = fio[1];
+                if (fio.Length == 3)
+                {
+                    emp.MiddleName = fio[2];
+                }
+                emp.Login = entInfo.Login;
+                emp.Password = entInfo.Password;
+                emp.IIN = entInfo.ManagerIin;
+                emp.PositionId = 9;
+                emp.FromDate = DateTime.Today;
+                emp.StatusWork = StatusWork.Work;
+
+                _db.Employees.Add(emp);
+                _db.Enterprises.Add(ent);
+
+                _db.SaveChanges();
+
+                if (entInfo.DocFile != null)
+                {
+                    // путь к папке Files
+                    string path = "/Enterprise/" + ent.Id + "/RegistrationDoc" + Path.GetExtension(entInfo.DocFile.FileName);
+                    // сохраняем файл в папку Files в каталоге wwwroot
+                    Directory.CreateDirectory(_appEnvironment.WebRootPath + "/Enterprise/" + ent.Id + "/");
+                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                    {
+                        entInfo.DocFile.CopyTo(fileStream);
+                    }
+                }
+
+                return Json("Вы успешно зарегистрированы. Попробуйте зайти на сайт");
             }
-           
-            return Json("Вы успешно зарегистрированы. Попробуйте зайти на сайт");
+            string messages = string.Join("; ", ModelState.Values
+                                                        .SelectMany(x => x.Errors)
+                                                                .Select(x => x.ErrorMessage));
+            return Json("Ошибка при сохранении: " + messages);
         }
+
+        // }
+        // catch (DbUpdateException ex)
+        // {
+        //     if(ex.InnerException!=null){
+        //         return Json(ex.InnerException.Message);
+        //     }
+        //     return Json(ex.Message);
+        // }
         public class EntInfo
         {
+            [Required]
+            [MinLength(5), MaxLength(8)]
+            public string Login { get; set; }
+            [Required]
+            [MinLength(5), MaxLength(10)]
+            public string Password { get; set; }
+            [Required]
+            [MaxLength(12), MinLength(12)]
             public string Xin { get; set; }
             public EnterpriseType Type { get; set; }
             public string Form { get; set; }
             public string Name { get; set; }
             public string Manager { get; set; }
+            [Required]
+            [MaxLength(12), MinLength(12)]
             public string ManagerIin { get; set; }
             public string Address { get; set; }
             public string Phone { get; set; }

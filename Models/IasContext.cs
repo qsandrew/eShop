@@ -18,6 +18,9 @@ namespace eShop.Models
             builder.Entity<Employee>()
                 .HasIndex(e => e.IIN)
                 .IsUnique();
+            builder.Entity<Employee>()
+                .HasIndex(e => e.Login)
+                .IsUnique();
 
             builder.Entity<Enterprise>()
                 .HasIndex(e => e.XIN)

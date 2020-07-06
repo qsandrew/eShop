@@ -46,7 +46,7 @@ Layout="../Shared/_Login.cshtml";
                     <input v-model="ent.email" type="email" required placeholder="Введите email">
                 </label>
                 <label>Документ<span style="color: red;">*</span>
-                    <input type="file" v-on:change="selectFile($event.target.files)">
+                    <input type="file" required v-on:change="selectFile($event.target.files)">
                 </label>
 
 
@@ -64,10 +64,10 @@ Layout="../Shared/_Login.cshtml";
                 </label>
 
                 <label>Логин<span style="color: red;">*</span>
-                    <input v-model="ent.login" pattern="[0-9a-z]{5,}" type="text" required placeholder="Введите логин">
+                    <input v-model="ent.login" pattern="[0-9a-z]{5,8}" type="text" required placeholder="Введите логин (5-8 символов)">
                 </label>
                 <label>Пароль<span style="color: red;">*</span>
-                    <input v-model="ent.password" pattern="[0-9a-z]{5,}" type="text" required placeholder="Введите пароль">
+                    <input v-model="ent.password" pattern="[0-9a-z]{5,10}" type="password" required placeholder="Введите пароль (5-10 символов)">
                 </label>
             </div>
         </div>

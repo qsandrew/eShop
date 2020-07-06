@@ -9,6 +9,12 @@ namespace eShop.Models.EntInfo
     public class Employee : Base
     {
         [Required]
+        [MinLength(5), MaxLength(8)]
+        public string Login { get; set; }
+        [Required]
+        [MinLength(5), MaxLength(10)]
+        public string Password { get; set; }
+        [Required]
         public string SurName { get; set; }
         public string MiddleName { get; set; }
         [Required]
@@ -19,9 +25,16 @@ namespace eShop.Models.EntInfo
         public DateTime FromDate { get; set; }
         public StatusWork StatusWork { get; set; }
 
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+
         [NotMapped]
-        public string FullName {get{
-            return this.SurName+" "+ this.Name+ " " + this.MiddleName;
-        }}
+        public string FullName
+        {
+            get
+            {
+                return this.SurName + " " + this.Name + " " + this.MiddleName;
+            }
+        }
     }
 }
