@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using eShop.Models.Common;
@@ -15,6 +16,8 @@ namespace eShop.Models.EntInfo
         public string Phone {get;set;}
         public  string Email {get;set;}
         public string DocPath {get;set;}
+
+        public ICollection<Employee> Employees { get; set; }
     }
 
     public enum EnterpriseType

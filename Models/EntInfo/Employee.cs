@@ -25,6 +25,9 @@ namespace eShop.Models.EntInfo
         public DateTime FromDate { get; set; }
         public StatusWork StatusWork { get; set; }
 
+        public Enterprise Enterprise{get;set;}
+        public int EnterpriseId{get;set;}
+
         [Timestamp]
         public byte[] RowVersion { get; set; }
 

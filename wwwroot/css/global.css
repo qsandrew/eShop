@@ -25,8 +25,13 @@ select {
 
 .red {
     color: #FFF;
-    background-color: #ed6b75;
-    border-color: #ed6b75;
+    background-color: #e7505a;
+    border-color: #e7505a;
+}
+.red:hover{
+    background-color: #e12330;
+    border-color: #e12330;
+    
 }
 
 .yellow {
@@ -51,6 +56,17 @@ select {
     border-color: #2f353b;
     color: #fff;
     background: #2f353b;
+}
+.outWhite {
+    border: 1px solid #edf4f8;
+    color: #edf4f8;
+    background: transparent;
+}
+
+.outWhite:hover {
+    border-color: #edf4f8;
+    color: black;
+    background: #edf4f8;
 }
 
 .outPurple {

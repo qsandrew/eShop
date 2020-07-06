@@ -32,6 +32,24 @@ namespace eShop.Controllers
         {
             return View();
         }
+        public IActionResult Enter()
+        {
+            return View();
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Enter(string Login, string Password)
+        {
+            var empl = _db.Employees.FirstOrDefault(x=>x.Login == Login && x.Password == Password);
+            if(empl!=null){
+                return RedirectToAction("Index","Home");
+            }
+            ViewBag.Error = "Вы не зарегистрированы либо неверно введен логин/пароль";
+            return View();
+        }
 
         [HttpGet]
         public IActionResult GetEntTypes()
@@ -86,9 +104,10 @@ namespace eShop.Controllers
                 emp.PositionId = 9;
                 emp.FromDate = DateTime.Today;
                 emp.StatusWork = StatusWork.Work;
-
-                _db.Employees.Add(emp);
+                emp.Enterprise = ent;
+                
                 _db.Enterprises.Add(ent);
+                _db.Employees.Add(emp);
 
                 _db.SaveChanges();
 
@@ -102,6 +121,8 @@ namespace eShop.Controllers
                     {
                         entInfo.DocFile.CopyTo(fileStream);
                     }
+                    ent.DocPath = path;
+                    _db.SaveChanges();
                 }
 
                 return Json("Вы успешно зарегистрированы. Попробуйте зайти на сайт");

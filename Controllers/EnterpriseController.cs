@@ -104,7 +104,7 @@ namespace eShop.Controllers
                 
                 _db.SaveChanges();
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (DbUpdateConcurrencyException )
             {
                  return Json("Запись не была сохранена, так как кто-то пытался параллельно её редактировать");
             }
