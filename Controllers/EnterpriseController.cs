@@ -61,6 +61,8 @@ namespace eShop.Controllers
             {
                 x.EnterpriseId,
                 x.Id,
+                x.Login,
+                x.Password,
                 x.Name,
                 x.SurName,
                 x.MiddleName,
@@ -102,6 +104,8 @@ namespace eShop.Controllers
                 oldEmp.StatusWork = emp.StatusWork;
                 oldEmp.SurName = emp.SurName;
                 oldEmp.FromDate = emp.FromDate;
+                oldEmp.Login = emp.Login;
+                oldEmp.Password = emp.Password;
                 //oldEmp.RowVersion  = emp.RowVersion;
 
                 _db.Entry(oldEmp).Property("RowVersion").OriginalValue = emp.RowVersion;

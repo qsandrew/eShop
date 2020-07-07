@@ -34,7 +34,7 @@ namespace eShop
                 .AddCookie(options =>
                 {
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Login/Enter");
-                    options.ExpireTimeSpan = TimeSpan.FromSeconds(30);
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
                     //options.ExpireTimeSpan=30000;
                     options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Login/Enter");
                 });
@@ -53,13 +53,27 @@ namespace eShop
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+           app.Use(async (ctx, next) =>
+            {
+                await next();
+
+                if(ctx.Response.StatusCode == 404 && !ctx.Response.HasStarted)
+                {
+                    ctx.Request.Path = "/error/PageNotFound";
+                    await next();
+                }
+            });
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
+            
 
             app.UseAuthentication();    // аутентификация
             app.UseAuthorization();  
+
+           
 
             app.UseEndpoints(endpoints =>
             {
@@ -67,6 +81,8 @@ namespace eShop
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+         
         }
     }
 }

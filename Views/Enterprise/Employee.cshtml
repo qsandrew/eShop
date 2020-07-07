@@ -162,10 +162,14 @@
         background-color: rgba(0, 0, 0, 0.4);
 
     }
-    .loading{
-        text-align: center; top: 50%; position: relative; transform: translateY(-50%);
+
+    .loading {
+        text-align: center;
+        top: 50%;
+        position: relative;
+        transform: translateY(-50%);
     }
-   
+
 
     .modal-content {
         box-sizing: border-box;
@@ -209,6 +213,8 @@
                         <th style="width: 200px;">Должность</th>
                         <th style="width: 100px;">Работает с</th>
                         <th style="width: 150px;">Статус</th>
+                        <th style="width: 120px;">Логин</th>
+                        <th style="width: 120px;">Пароль</th>
                         <th style="width: 100px;">Действия</th>
                     </tr>
                     <tr>
@@ -224,13 +230,15 @@
                         <th></th>
                         <th>
                             <select v-on:change="reloadEmployee()" v-model.number="empFilter.status">
-                                <option value="0" ></option>
+                                <option value="0"></option>
                                 <option value="1">Работает</option>
                                 <option value="2">Отпуск</option>
                                 <option value="3">Болеет</option>
                                 <option value="4">Уволен</option>
                             </select>
                         </th>
+                        <th></th>
+                        <th></th>
                         <th></th>
                     </tr>
                 </thead>
@@ -244,9 +252,13 @@
                             <td>{{empl.fromDate}}</td>
                             <td> <span style="padding: 3px;"
                                     v-bind:class="setStatuslbl(empl.statusWork)">{{empl.statusName}}</span></td>
+                            <td>{{empl.login}}</td>
+                            <td>{{empl.password}}</td>
                             <td>
-                                <button class="btn outPurple" type="button" v-on:click="editRow(empl)"><i class="fa fa-pencil"></i></button>
-                                <button class="btn outBlack" type="button" v-on:click="deleteEmployee(empl)"><i class="fa fa-trash"></i></button>
+                                <button class="btn outPurple" type="button" v-on:click="editRow(empl)"><i
+                                        class="fa fa-pencil"></i></button>
+                                <button class="btn outBlack" type="button" v-on:click="deleteEmployee(empl)"><i
+                                        class="fa fa-trash"></i></button>
 
                             </td>
                         </template>
@@ -282,6 +294,14 @@
                                 </select>
                             </td>
                             <td>
+                                <input v-model="emp.login" minlength="5" maxlength="8" type="text" required
+                                    placeholder="Введите логин">
+                            </td>
+                            <td>
+                                <input v-model="emp.password" minlength="5" maxlength="10" type="text" required
+                                    placeholder="Введите пароль">
+                            </td>
+                            <td>
                                 <button class="btn outRed" type="button" v-on:click="deleteRow(empl)"><i
                                         class="fa fa-eraser"></i></button>
                                 <button class="btn outBlue" v-on:click="saveEmployee()"><i
@@ -293,7 +313,8 @@
             </table>
         </form>
         <div style="margin-top: 10px; text-align: right;">
-            <button class="btn outBlue" v-if="btn.shAdd" v-on:click="addRow();"><i class="fa fa-plus"></i> Добавить</button>
+            <button class="btn outBlue" v-if="btn.shAdd" v-on:click="addRow();"><i class="fa fa-plus"></i>
+                Добавить</button>
         </div>
 
     </div>
@@ -307,19 +328,21 @@
         el: '#app',
         data: {
             showEmp: false,
-            btn:{
-               shAdd:true, 
+            btn: {
+                shAdd: true,
             },
             employees: [],
             positions: [],
-            empFilter:{
-                fio:'',
-                iin:'',
-                positionId:0,
-                status:0
+            empFilter: {
+                fio: '',
+                iin: '',
+                positionId: 0,
+                status: 0
             },
             emp: {
-                id:0,
+                id: 0,
+                login: '',
+                password: '',
                 surName: '',
                 name: '',
                 middleName: '',
@@ -328,7 +351,7 @@
                 fromDate: '',
                 statusWork: 1,
                 isEdit: true,
-                rowVersion:''
+                rowVersion: ''
             }
         },
 
@@ -338,45 +361,45 @@
         },
 
         methods: {
-            reloadEmployee(){
+            reloadEmployee() {
                 this.getEmployees();
-                this.emp = {id:0, surName: '', name: '', middleName: '', iin: '', positionId: 1, fromDate: '', statusWork: 1, isEdit: true }
-                this.btn.shAdd=true;
+                this.emp = { id: 0, surName: '', name: '', middleName: '', iin: '', positionId: 1, fromDate: '', statusWork: 1, isEdit: true }
+                this.btn.shAdd = true;
             },
-            deleteEmployee(empl){
+            deleteEmployee(empl) {
                 let isDel = confirm("Удалить запись?");
-                if(isDel){
+                if (isDel) {
                     this.emp = empl;
                     const [day, month, year] = this.emp.fromDate.split(".");
-                    this.emp.fromDate=year+'-'+month+'-'+day;
+                    this.emp.fromDate = year + '-' + month + '-' + day;
                     axios.post('/Enterprise/DeleteEmployee', this.emp)
-                    .then(resp=>{
-                        this.reloadEmployee();
-                        alert(resp.data);
-                    })
-                    .catch(error => {console.log(error);});  
+                        .then(resp => {
+                            this.reloadEmployee();
+                            alert(resp.data);
+                        })
+                        .catch(error => { console.log(error); });
                 }
             },
-            editRow(empl){
+            editRow(empl) {
                 this.btn.shAdd = false;
-                empl.isEdit=true;
+                empl.isEdit = true;
                 this.emp = Object.assign({}, empl);
                 const [day, month, year] = this.emp.fromDate.split(".");
-                 this.emp.fromDate=year+'-'+month+'-'+day;
-                
+                this.emp.fromDate = year + '-' + month + '-' + day;
+
             },
             addRow() {
-                this.emp = {id:0, surName: '', name: '', middleName: '', iin: '', positionId: 1, fromDate: '', statusWork: 1, isEdit: true };
+                this.emp = { id: 0, surName: '', name: '', middleName: '', iin: '', positionId: 1, fromDate: '', statusWork: 1, isEdit: true };
                 this.employees.push(this.emp);
-                this.btn.shAdd=false;
+                this.btn.shAdd = false;
             },
             deleteRow(empl) {
                 this.btn.shAdd = true;
-                if(empl.id!=0){
-                    empl.isEdit=false;
+                if (empl.id != 0) {
+                    empl.isEdit = false;
                     return;
                 }
-                this.emp = {id:0, surName: '', name: '', middleName: '', iin: '', positionId: 1, fromDate: '', statusWork: 1, isEdit: true }
+                this.emp = { id: 0, surName: '', name: '', middleName: '', iin: '', positionId: 1, fromDate: '', statusWork: 1, isEdit: true }
                 this.employees.pop();
             },
 
@@ -416,14 +439,14 @@
                 if (this.checkIsInvalid()) {
                     return;
                 }
-                
+
                 axios.post('/Enterprise/SaveEmployee', this.emp)
-                    .then(resp=>{
+                    .then(resp => {
                         this.reloadEmployee();
-                      
+
                         alert(resp.data);
                     })
-                    .catch(error => {console.log(error);});
+                    .catch(error => { console.log(error); });
             },
 
             closeWinEmp: function () {
