@@ -36,7 +36,7 @@ namespace eShop
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Login/Enter");
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
                     //options.ExpireTimeSpan=30000;
-                    options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Login/Enter");
+                    options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Login/Role");
                 });
         }
 

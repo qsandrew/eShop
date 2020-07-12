@@ -47,13 +47,19 @@ namespace eShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Enter(string Login, string Password)
         {
-            var empl = await _db.Employees.Include(x=>x.Position).FirstOrDefaultAsync(x=>x.Login == Login && x.Password == Password);
-            if(empl!=null){
-                await Authenticate(empl); 
-                
-                return RedirectToAction("Index","Home");
+            var empl = await _db.Employees.Include(x => x.Position).FirstOrDefaultAsync(x => x.Login == Login && x.Password == Password);
+            if (empl != null)
+            {
+                await Authenticate(empl);
+
+                return RedirectToAction("Index", "Home");
             }
             ViewBag.Error = "Вы не зарегистрированы либо неверно введен логин/пароль";
+            return View();
+        }
+        [HttpGet]
+        public IActionResult Role()
+        {
             return View();
         }
 
@@ -128,7 +134,7 @@ namespace eShop.Controllers
                 emp.FromDate = DateTime.Today;
                 emp.StatusWork = StatusWork.Work;
                 emp.Enterprise = ent;
-                
+
                 _db.Enterprises.Add(ent);
                 _db.Employees.Add(emp);
 
