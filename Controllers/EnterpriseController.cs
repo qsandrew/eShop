@@ -20,7 +20,24 @@ namespace eShop.Controllers
             _db = context;
             _logger = logger;
         }
-         [Authorize(Roles = "Директор")]
+        public IActionResult Company()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult GetEntInfo()
+        {
+            var entId = int.Parse(User.FindFirst(x => x.Type == "EnterpriseId").Value);
+            var enterprise = _db.Enterprises.Find(entId);
+            var manager = _db.Employees.FirstOrDefault(x => x.EnterpriseId == entId && x.PositionId==9);
+            var data = new {EntName = enterprise.Name, EntType = enterprise.EnterpriseType.GetDescription(),  EntXin = enterprise.XIN, enterprise.Address, enterprise.Phone, enterprise.Email, Document =enterprise.DocPath };
+
+            return Json(data);
+        }
+
+
+        [Authorize(Roles = "Директор")]
         public IActionResult Employee()
         {
             return View();
@@ -36,7 +53,7 @@ namespace eShop.Controllers
         public IActionResult GetEmployees([FromBody] EmpFilter empFilter)
         {
             var entId = int.Parse(User.FindFirst(x => x.Type == "EnterpriseId").Value);
-            var employees = _db.Employees.Include(x => x.Position).Where(x=>x.EnterpriseId==entId).AsQueryable();
+            var employees = _db.Employees.Include(x => x.Position).Where(x => x.EnterpriseId == entId).AsQueryable();
 
             if (!string.IsNullOrEmpty(empFilter.Fio))
             {
@@ -91,7 +108,7 @@ namespace eShop.Controllers
             if (emp.Id == 0)
             {
                 var entId = int.Parse(User.FindFirst(x => x.Type == "EnterpriseId").Value);
-                emp.EnterpriseId=entId;
+                emp.EnterpriseId = entId;
                 _db.Employees.Add(emp);
             }
             else
@@ -112,12 +129,12 @@ namespace eShop.Controllers
             }
             try
             {
-                
+
                 _db.SaveChanges();
             }
-            catch (DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                 return Json("Запись не была сохранена, так как кто-то пытался параллельно её редактировать");
+                return Json("Запись не была сохранена, так как кто-то пытался параллельно её редактировать");
             }
             return Json("Запись успешно сохранена");
             //bl.SaveEmployee(_db, )

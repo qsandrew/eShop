@@ -1,0 +1,50 @@
+<style>
+    main{
+        background-color: #EEF1F5;
+    }
+    .card{
+        background-color: white;
+        padding: 20px;
+    }
+    .card h3{
+        color: #578ebe;
+        margin: 0;
+    }
+</style>
+
+<div id="app">
+    <div class="card">
+        <form action="javascript:;">
+        <h3>Регистрационный данные (нельзя менять)</h3>
+
+        
+        <p>Тип предприятия: <b>{{info.entType}}</b></p>
+        <p>Название предприятия: <b>{{info.entName}}</b></p>
+        <p>ИИН/БИН предприятия: <b>{{info.entXin}}</b></p>
+        <p>Адрес: <b>{{info.address}}</b></p>
+        <p>Телефон: <b>{{info.phone}}</b></p>
+        <p>Email: <b>{{info.email}}</b></p>
+        <p>Документ регистрации: <b><a target="_blank" v-bind:href="info.document">Просмотреть</a> </b></p>
+    </form>
+    </div>
+</div>
+
+@section Scripts{
+<script>
+    let app = new Vue({
+        el: '#app',
+        data: {
+            info:{},
+        },
+        mounted() {
+            this.getData();
+        },
+        methods: {
+            getData: async function () {
+                let resp = await axios.get('/Enterprise/GetEntInfo');
+                this.info = resp.data; 
+            },
+        }
+    });
+</script>
+}
