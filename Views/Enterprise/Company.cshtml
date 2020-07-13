@@ -44,27 +44,35 @@
         <hr />
         <form id="manager" action="javascript:;">
             <label>
-                Фамилия: <input v-model="info.surName" type="text" />
+                Фамилия: <input placeholder="Введите фамилию" required v-model="info.surName" type="text" />
             </label>
             <label>
-                Имя: <input v-model="info.name" type="text" />
+                Имя: <input placeholder="Введите имя" required v-model="info.name" type="text" />
             </label>
             <label>
                 Отчество: <input v-model="info.middleName" type="text" />
             </label>
             <label>
-                ИИН: <input v-model="info.iin" type="text" />
+                ИИН: <input placeholder="12 цифр" required pattern="[0-9]{12}" v-model="info.iin" type="text" />
             </label>
             <label>
-                Логин: <input v-model="info.login" type="text" />
+                Логин: <input placeholder="5-8 символов" required pattern="[0-9a-z]{5,8}" v-model="info.login" type="text" />
             </label>
             <label>
-                Пароль: <input v-model="info.password" v-bind:type="passType" /> <button class="btn green" type="button" v-on:mousedown="passType='text'" v-on:mouseup="passType='password'"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                Пароль: <input placeholder="5-10 символов" required pattern="[0-9a-z]{5,10}" v-model="info.password" v-bind:type="passType" /> <button class="btn green" type="button" v-on:mousedown="passType='text'" v-on:mouseup="passType='password'"><i class="fa fa-eye" aria-hidden="true"></i></button>
             </label>
             <div style="text-align: right;">
-                <button type="button" class="btn green">Сохранить</button>
+                <button v-on:click="SaveEmployee()" class="btn green">Сохранить</button>
             </div>
         </form>
+    </div>
+
+    <div class="card" style="margin-left: 20px;">
+        <h3>Направление работы хозяйства</h3>
+        <hr />
+        <p>
+            Скотоводство: <input type="checkbox" name="animal"/>
+        </p>
     </div>
 </div>
 
@@ -80,6 +88,26 @@
             this.getData();
         },
         methods: {
+            checkIsInvalid: function () {
+                let arrInput = manager.querySelectorAll("[required], [pattern]");
+                let isInvalid = false;
+                for (let inp of arrInput) {
+                    if (inp.checkValidity()) {
+                        inp.style.borderBottom = "1px solid #36c6d3";
+                    } else {
+                        inp.style.borderBottom = "1px solid red";
+                        isInvalid = true;
+                    }
+                }
+                return isInvalid;
+            },
+            SaveEmployee:async function(){
+                if (this.checkIsInvalid()) {
+                    return;
+                }
+                let resp = await axios.post('/Enterprise/SaveEntInfo', this.info);
+                alert(resp.data);
+            },
             getData: async function () {
                 let resp = await axios.get('/Enterprise/GetEntInfo');
                 this.info = resp.data;

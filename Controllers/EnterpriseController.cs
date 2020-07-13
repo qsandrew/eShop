@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using eShop.Models;
 using eShop.Models.Common;
@@ -30,13 +31,64 @@ namespace eShop.Controllers
         {
             var entId = int.Parse(User.FindFirst(x => x.Type == "EnterpriseId").Value);
             var enterprise = _db.Enterprises.Find(entId);
-            var manager = _db.Employees.FirstOrDefault(x => x.EnterpriseId == entId && x.PositionId==9);
-            var data = new {
-                EntName = enterprise.Name, EntType = enterprise.EnterpriseType.GetDescription(),  EntXin = enterprise.XIN, enterprise.Address, enterprise.Phone, enterprise.Email, Document =enterprise.DocPath,
-                manager.SurName, manager.Name, manager.MiddleName, manager.IIN, manager.Login, manager.Password
+            var manager = _db.Employees.FirstOrDefault(x => x.EnterpriseId == entId && x.PositionId == 9);
+            var data = new
+            {
+                EntId = enterprise.Id,
+                EntName = enterprise.Name,
+                EntType = enterprise.EnterpriseType.GetDescription(),
+                EntXin = enterprise.XIN,
+                enterprise.Address,
+                enterprise.Phone,
+                enterprise.Email,
+                Document = enterprise.DocPath,
+                EmpId = manager.Id,
+                manager.SurName,
+                manager.Name,
+                manager.MiddleName,
+                manager.IIN,
+                manager.Login,
+                manager.Password
             };
 
             return Json(data);
+        }
+        public class EmpInfo
+        {
+            public int EmpId { get; set; }
+            [Required]
+            public string SurName { get; set; }
+            [Required]
+            public string Name { get; set; }
+            public string MiddleName { get; set; }
+            [Required]
+            [MaxLength(12), MinLength(12)]
+            public string IIN { get; set; }
+            [Required]
+            [MinLength(5), MaxLength(8)]
+            public string Login { get; set; }
+            [Required]
+            [MinLength(5), MaxLength(10)]
+            public string Password { get; set; }
+        }
+        [HttpPost]
+        public IActionResult SaveEntInfo([FromBody] EmpInfo empInfo)
+        {
+            if (ModelState.IsValid)
+            {
+                var emp = _db.Employees.Find(empInfo.EmpId);
+                emp.SurName = empInfo.SurName;
+                emp.Name = empInfo.Name;
+                emp.MiddleName = empInfo.MiddleName;
+                emp.IIN = empInfo.IIN;
+                emp.Login = empInfo.Login;
+                emp.Password = empInfo.Password;
+
+                _db.SaveChanges();
+
+                return Json("Успешно сохранено");
+            }
+            return Json("При сохранении произошла ошибка");
         }
 
 

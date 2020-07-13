@@ -12,7 +12,8 @@ button:hover {
     cursor: pointer;
 }
 
-input,
+input[type='text'],
+input[type='password'],
 select {
     box-sizing: border-box;
     width: 100%;
