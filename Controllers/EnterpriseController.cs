@@ -31,7 +31,10 @@ namespace eShop.Controllers
             var entId = int.Parse(User.FindFirst(x => x.Type == "EnterpriseId").Value);
             var enterprise = _db.Enterprises.Find(entId);
             var manager = _db.Employees.FirstOrDefault(x => x.EnterpriseId == entId && x.PositionId==9);
-            var data = new {EntName = enterprise.Name, EntType = enterprise.EnterpriseType.GetDescription(),  EntXin = enterprise.XIN, enterprise.Address, enterprise.Phone, enterprise.Email, Document =enterprise.DocPath };
+            var data = new {
+                EntName = enterprise.Name, EntType = enterprise.EnterpriseType.GetDescription(),  EntXin = enterprise.XIN, enterprise.Address, enterprise.Phone, enterprise.Email, Document =enterprise.DocPath,
+                manager.SurName, manager.Name, manager.MiddleName, manager.IIN, manager.Login, manager.Password
+            };
 
             return Json(data);
         }

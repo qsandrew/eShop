@@ -1,23 +1,35 @@
 <style>
-    main{
+    main {
         background-color: #EEF1F5;
     }
-    .card{
+
+    .card {
         background-color: white;
         padding: 20px;
     }
-    .card h3{
+
+    .card h3 {
         color: #578ebe;
         margin: 0;
     }
+
+    #manager label {
+        display: block;
+        margin: 5px;
+        text-align: right;
+    }
+
+    #manager input {
+        border: none;
+        border-bottom: 1px solid #ccc;
+        width: auto;
+    }
 </style>
 
-<div id="app">
+<div id="app" style="display: flex;">
     <div class="card">
-        <form action="javascript:;">
         <h3>Регистрационный данные (нельзя менять)</h3>
-
-        
+        <hr />
         <p>Тип предприятия: <b>{{info.entType}}</b></p>
         <p>Название предприятия: <b>{{info.entName}}</b></p>
         <p>ИИН/БИН предприятия: <b>{{info.entXin}}</b></p>
@@ -25,7 +37,34 @@
         <p>Телефон: <b>{{info.phone}}</b></p>
         <p>Email: <b>{{info.email}}</b></p>
         <p>Документ регистрации: <b><a target="_blank" v-bind:href="info.document">Просмотреть</a> </b></p>
-    </form>
+    </div>
+
+    <div class="card" style="margin-left: 20px;">
+        <h3>Руководитель</h3>
+        <hr />
+        <form id="manager" action="javascript:;">
+            <label>
+                Фамилия: <input v-model="info.surName" type="text" />
+            </label>
+            <label>
+                Имя: <input v-model="info.name" type="text" />
+            </label>
+            <label>
+                Отчество: <input v-model="info.middleName" type="text" />
+            </label>
+            <label>
+                ИИН: <input v-model="info.iin" type="text" />
+            </label>
+            <label>
+                Логин: <input v-model="info.login" type="text" />
+            </label>
+            <label>
+                Пароль: <input v-model="info.password" v-bind:type="passType" /> <button class="btn green" type="button" v-on:mousedown="passType='text'" v-on:mouseup="passType='password'"><i class="fa fa-eye" aria-hidden="true"></i></button>
+            </label>
+            <div style="text-align: right;">
+                <button type="button" class="btn green">Сохранить</button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -34,7 +73,8 @@
     let app = new Vue({
         el: '#app',
         data: {
-            info:{},
+            passType:'password',
+            info: {},
         },
         mounted() {
             this.getData();
@@ -42,7 +82,7 @@
         methods: {
             getData: async function () {
                 let resp = await axios.get('/Enterprise/GetEntInfo');
-                this.info = resp.data; 
+                this.info = resp.data;
             },
         }
     });
