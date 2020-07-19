@@ -1,0 +1,254 @@
+<style>
+    .card {
+        border: 1px solid #32c5d2;
+        margin-bottom: 10px;
+    }
+
+    .card .title {
+        font-size: 18px;
+        padding: 10px;
+        /* background-color: #32c5d2;
+        color: white; */
+    }
+
+    /* .card .body {
+        padding: 15px;
+    } */
+
+    table {
+        color: #333;
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    table thead {
+        background-color: #f1f4f7;
+    }
+
+    table th,
+    table td {
+        padding: 5px;
+        border: 1px solid #e7ecf1;
+    }
+
+    table td:nth-child(1) {
+        text-align: center;
+    }
+
+    table tbody tr {
+        cursor: pointer;
+    }
+
+    table tbody tr:hover {
+        background-color: #f3f4f6;
+    }
+
+    table tbody td {
+        text-align: center;
+
+    }
+</style>
+
+<div id="app">
+    <div class="card">
+        <div class="title green"><i class="fa fa-comments"></i>
+            <label>
+                <input type="checkbox" v-model="isCow"> Скотоводство (КРС)
+            </label>
+        </div>
+        <div class="body" v-if="isCow">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Название</th>
+                        <th>Вид фермы</th>
+                        <th>Поголовье, гол</th>
+                        <th>Описание</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>dddd</td>
+                        <td>sffdd</td>
+                        <td>sfdsfdsf</td>
+                        <td>bddgfddd</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card">
+        <div class="title red"><i class="fa fa-comments"></i>
+            <label>
+                <input type="checkbox"  v-model="isSheep"> Овцеводство (МРС)
+            </label>
+        </div>
+        <div class="body" v-if="isSheep">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Название</th>
+                        <th>Вид отары</th>
+                        <th>Поголовье, гол</th>
+                        <th>Описание</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>dddd</td>
+                        <td>sffdd</td>
+                        <td>sfdsfdsf</td>
+                        <td>bddgfddd</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="title blue"><i class="fa fa-comments"></i>
+            <label>
+                <input type="checkbox"  v-model="isHorse"> Коневодство
+            </label>
+        </div>
+        <div class="body" v-if="isHorse">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Название</th>
+                        <th>Вид табуна</th>
+                        <th>Поголовье, гол</th>
+                        <th>Описание</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>dddd</td>
+                        <td>sffdd</td>
+                        <td>sfdsfdsf</td>
+                        <td>bddgfddd</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="title grey"><i class="fa fa-comments"></i>
+            <label>
+                <input type="checkbox"  v-model="isCamel"> Верблюдоводство
+            </label>
+        </div>
+        <div class="body" v-if="isCamel">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Название</th>
+                        <th>Вид стада</th>
+                        <th>Поголовье, гол</th>
+                        <th>Описание</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>dddd</td>
+                        <td>sffdd</td>
+                        <td>sfdsfdsf</td>
+                        <td>bddgfddd</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="title yellow"><i class="fa fa-comments"></i>
+            <label>
+                <input type="checkbox"  v-model="isPig"> Свиноводство
+            </label>
+        </div>
+        <div class="body" v-if="isPig">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Название</th>
+                        <th>Вид стада</th>
+                        <th>Поголовье, гол</th>
+                        <th>Описание</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>dddd</td>
+                        <td>sffdd</td>
+                        <td>sfdsfdsf</td>
+                        <td>bddgfddd</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card">
+        <div class="title purple"><i class="fa fa-comments"></i>
+            <label>
+                <input type="checkbox"  v-model="isBird"> Птицеводство
+            </label>
+        </div>
+        <div class="body" v-if="isBird">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Название</th>
+                        <th>Тип птиц</th>
+                        <th>Вид стаи</th>
+                        <th>Поголовье, гол</th>
+                        <th>Описание</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>dddd</td>
+                        <td>sffdd</td>
+                        <td>sfdsfdsf</td>
+                        <td>bddgfddd</td>
+                        <td>bddgfddd</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+<script>
+     let app = new Vue({
+        el: '#app',
+        data: {
+            isCow: false,
+            isSheep: false,
+            isHorse: false,
+            isCamel: false,
+            isPig: false,
+            isBird: false
+        }
+     });
+</script>
+}

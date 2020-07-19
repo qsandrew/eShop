@@ -24,12 +24,36 @@ input:focus,
 select:focus{
     outline: 1px solid lightblue;
 }
+table {
+    border-collapse: collapse;
+}
+
+table,
+th,
+td {
+    border: 1px solid #ccc;
+    padding: 5px;
+}
 
 /* global color */
 .green {
     color: #FFF;
     background-color: #32c5d2;
     border-color: #32c5d2;
+}
+.green:hover {
+    background-color: #26a1ab;
+    border-color: #26a1ab;
+
+}
+.blue{
+    color: #FFF;
+    background-color: #3598dc;
+    border-color: #3598dc;
+}
+.blue:hover{
+    background-color: hsl(204, 70%, 40%);
+    border-color: hsl(204, 70%, 40%);
 }
 
 .red {
@@ -43,17 +67,39 @@ select:focus{
     
 }
 
+.grey{
+    color: #fff;
+    background-color: #8e9bae;
+    border-color:  #8e9bae;
+}
+.grey:hover{
+    color: #fff;
+    background-color: hsl(216, 16%, 50%);
+    border-color:  hsl(216, 16%, 50%);
+}
+
 .yellow {
     color: #fff;
-    background-color: #F1C40F;
-    background-color: #F1C40F;
+    background-color: hsl(48, 89%, 40%);
+    border-color: hsl(48, 89%, 40%);
+}
+.yellow:hover{
+    background-color: hsl(48, 89%, 30%);
+    border-color: hsl(48, 89%, 30%); 
+}
+.purple{
+    color:#fff;
+    background-color: #8E44AD;
+    border-color: #8E44AD;
+}
+.purple:hover{
+    color:#fff;
+    background-color: hsl(282, 44%, 40%);
+    border-color: hsl(282, 44%, 40%);
 }
 
-.green:hover {
-    background-color: #26a1ab;
-    border-color: #26a1ab;
 
-}
+
 
 .outBlack {
     border: 1px solid #2f353b;

@@ -26,6 +26,10 @@ namespace eShop.Controllers
             return View();
         }
 
+        public IActionResult Farms(){
+            return View();
+        }
+
         [HttpGet]
         public IActionResult GetEntInfo()
         {
