@@ -14,6 +14,10 @@ namespace eShop.Models
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Enterprise> Enterprises {get;set;}
         public DbSet<Farm> Farms {get;set;}
+        public DbSet<Flock> Flocks {get;set;}
+        public DbSet<Tabun> Tabuns {get;set;}
+        public DbSet<Herd> Herds {get;set;}
+        public DbSet<Caravan> Caravans {get;set;}
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

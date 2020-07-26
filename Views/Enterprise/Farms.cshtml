@@ -85,8 +85,8 @@
                                 <td>
                                     <select v-model.number="cowFarm.type">
                                         <option disabled>Выберите тип</option>
-                                        <option value="1">Молочная</option>
-                                        <option value="2">Мясная</option>
+                                        <option value="1">Племенная</option>
+                                        <option value="2">Товарная</option>
                                     </select>
                                 </td>
                                 <td>0</td>
@@ -166,7 +166,6 @@
             </div>
         </div>
     </div>
-
     <div class="card">
         <div class="title grey"><i class="fa fa-home"></i>
             <label>
@@ -197,7 +196,6 @@
             </div>
         </div>
     </div>
-
     <div class="card">
         <div class="title yellow"><i class="fa fa-home"></i>
             <label>
@@ -228,37 +226,7 @@
             </div>
         </div>
     </div>
-    <div class="card">
-        <div class="title purple"><i class="fa fa-home"></i>
-            <label>
-                <input type="checkbox" v-model="isBird"> Птицеводство
-            </label>
-        </div>
-        <div class="body" v-if="isBird">
-            <table>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Название</th>
-                        <th>Тип птиц</th>
-                        <th>Вид стаи</th>
-                        <th>Поголовье, гол</th>
-                        <th>Действия</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-
-                    </tr>
-
-                </tbody>
-            </table>
-            <div style="margin:5px; text-align: right;">
-                <button class="btn outBlue"><i class="fa fa-plus"></i>
-                    Добавить</button>
-            </div>
-        </div>
-    </div>
+ 
 </div>
 
 @section Scripts{
@@ -271,18 +239,26 @@
             isHorse: false,
             isCamel: false,
             isPig: false,
-            isBird: false,
 
             cowFarms: [],
             cowFarm:{},
             sheepFarms: [],
+            sheepFarm:{},
             horseFarms: [],
-            camelFarms: [],
+            horseFarm:{},
             pigFarms: [],
-            birdFarms: []
+            pigFarm:{},
+            camelFarms: [],
+            camelFarm:{}
+           
+
         },
         mounted() {
             this.getFarms();
+            this.getFlocks();
+            this.getTabuns();
+            this.getHerds();
+
         },
         methods: {
             checkIsInvalid: function () {
@@ -298,6 +274,37 @@
                 }
                 return isInvalid;
             },
+            getCaravans:async function(){
+                let resp = await axios.get('/Enterprise/GetCaravans');
+                this.camelFarms = resp.data;
+                if(this.camelFarms){
+                    this.isCamel = true;
+                }
+            },
+            getHerds:async function(){
+                let resp = await axios.get('/Enterprise/GetHerds');
+                this.pigFarms = resp.data;
+                if(this.pigFarms){
+                    this.isPig = true;
+                }
+            },
+
+            getTabuns:async function(){
+                let resp = await axios.get('/Enterprise/GetTabuns');
+                this.horseFarms = resp.data;
+                if(this.horseFarms){
+                    this.isHorse = true;
+                }
+            },
+
+            getFlocks:async function(){
+                let resp = await axios.get('/Enterprise/GetFlocks');
+                this.sheepFarms = resp.data;
+                if(this.sheepFarms){
+                    this.isSheep = true;
+                }
+            },
+
             getFarms:async function(){
                 let resp = await axios.get('/Enterprise/GetFarms');
                 this.cowFarms = resp.data;
