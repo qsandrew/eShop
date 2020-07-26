@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using eShop.Models.Common;
+using eShop.Models.CowInfo;
 using Microsoft.AspNetCore.Http;
 
 namespace eShop.Models.EntInfo
@@ -18,6 +19,7 @@ namespace eShop.Models.EntInfo
         public string DocPath {get;set;}
 
         public ICollection<Employee> Employees { get; set; }
+        public ICollection<Farm> Farms { get; set; }
     }
 
     public enum EnterpriseType

@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace eShop.Models.Common
 {
@@ -8,6 +9,7 @@ namespace eShop.Models.Common
         public bool IsDeleted {get;set;}
         public Base(){
         }
+        [Required]
         public string Name {get;set;}
     }
 }

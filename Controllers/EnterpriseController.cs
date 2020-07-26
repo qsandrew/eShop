@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using eShop.Models;
 using eShop.Models.Common;
+using eShop.Models.CowInfo;
 using eShop.Models.EntInfo;
 using eShop.Models.EntInfo.Reference;
 using Microsoft.AspNetCore.Authorization;
@@ -26,8 +27,38 @@ namespace eShop.Controllers
             return View();
         }
 
-        public IActionResult Farms(){
+        public IActionResult Farms()
+        {
             return View();
+        }
+        public class TFarm
+        {
+            public string Name { get; set; }
+            public FarmType Type { get; set; }
+        }
+        [HttpPost]
+        public IActionResult SaveFarms([FromBody] TFarm farm)
+        {
+            var entId = int.Parse(User.FindFirst(x => x.Type == "EnterpriseId").Value);
+            var f = new Farm();
+            f.Name = farm.Name;
+            f.FarmType = farm.Type;
+            f.EnterpriseId = entId;
+            _db.Farms.Add(f);
+            _db.SaveChanges();
+            return Json("OK");
+        }
+        [HttpGet]
+        public IActionResult GetFarms()
+        {
+            var entId = int.Parse(User.FindFirst(x => x.Type == "EnterpriseId").Value);
+            var farms = _db.Farms.Where(x=>x.EnterpriseId==entId);
+            if (farms != null)
+            {
+                var f = farms.Select(x => new { x.Name, Type = x.FarmType.GetDescription(), IsEdit = false });
+                return Json(f);
+            }
+            return Json("");
         }
 
         [HttpGet]

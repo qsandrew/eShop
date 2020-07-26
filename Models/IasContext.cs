@@ -1,3 +1,4 @@
+using eShop.Models.CowInfo;
 using eShop.Models.EntInfo;
 using eShop.Models.EntInfo.Reference;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ namespace eShop.Models
         public DbSet<Position> Positions { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Enterprise> Enterprises {get;set;}
+        public DbSet<Farm> Farms {get;set;}
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
