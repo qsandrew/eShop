@@ -45,7 +45,7 @@ namespace eShop.Controllers
         {
             var entId = int.Parse(User.FindFirst(x => x.Type == "EnterpriseId").Value);
             var farms = _db.Farms.Where(x => x.EnterpriseId == entId);
-            if (farms != null)
+            if (farms.Count() > 0)
             {
                 var f = farms.Select(x => new { x.Name, Type = x.FarmType.GetDescription(), IsEdit = false });
                 return Json(f);
@@ -69,7 +69,7 @@ namespace eShop.Controllers
         {
             var entId = int.Parse(User.FindFirst(x => x.Type == "EnterpriseId").Value);
             var flocks = _db.Flocks.Where(x => x.EnterpriseId == entId);
-            if (flocks != null)
+            if (flocks.Count() > 0)
             {
                 var f = flocks.Select(x => new { x.Name, Type = x.FarmType.GetDescription(), IsEdit = false });
                 return Json(f);
@@ -94,7 +94,7 @@ namespace eShop.Controllers
         {
             var entId = int.Parse(User.FindFirst(x => x.Type == "EnterpriseId").Value);
             var tabuns = _db.Tabuns.Where(x => x.EnterpriseId == entId);
-            if (tabuns != null)
+            if (tabuns.Count() > 0)
             {
                 var f = tabuns.Select(x => new { x.Name, Type = x.FarmType.GetDescription(), IsEdit = false });
                 return Json(f);
@@ -118,7 +118,7 @@ namespace eShop.Controllers
         {
             var entId = int.Parse(User.FindFirst(x => x.Type == "EnterpriseId").Value);
             var herds = _db.Herds.Where(x => x.EnterpriseId == entId);
-            if (herds != null)
+            if (herds.Count() > 0)
             {
                 var f = herds.Select(x => new { x.Name, Type = x.FarmType.GetDescription(), IsEdit = false });
                 return Json(f);
@@ -143,14 +143,14 @@ namespace eShop.Controllers
         {
             var entId = int.Parse(User.FindFirst(x => x.Type == "EnterpriseId").Value);
             var caravan = _db.Caravans.Where(x => x.EnterpriseId == entId);
-            if (caravan != null)
+            if (caravan.Count() > 0)
             {
                 var f = caravan.Select(x => new { x.Name, Type = x.FarmType.GetDescription(), IsEdit = false });
                 return Json(f);
             }
             return Json("");
         }
-          [HttpPost]
+        [HttpPost]
         public IActionResult SaveCaravans([FromBody] TFarm farm)
         {
             var entId = int.Parse(User.FindFirst(x => x.Type == "EnterpriseId").Value);

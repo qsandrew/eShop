@@ -386,40 +386,50 @@
             },
             getCaravans: async function () {
                 let resp = await axios.get('/Enterprise/GetCaravans');
-                this.camelFarms = resp.data;
-                if (this.camelFarms) {
-                    this.isCamel = true;
+                if(resp.data!=""){
+                    this.camelFarms = resp.data;
+                    if (this.camelFarms) {
+                        this.isCamel = true;
+                    }
                 }
             },
             getHerds: async function () {
                 let resp = await axios.get('/Enterprise/GetHerds');
-                this.pigFarms = resp.data;
-                if (this.pigFarms) {
-                    this.isPig = true;
+                if(resp.data!=""){
+                    this.pigFarms = resp.data;
+                    if (this.pigFarms) {
+                        this.isPig = true;
+                    }
                 }
             },
 
             getTabuns: async function () {
                 let resp = await axios.get('/Enterprise/GetTabuns');
-                this.horseFarms = resp.data;
-                if (this.horseFarms) {
-                    this.isHorse = true;
+                if(resp.data!=""){
+                    this.horseFarms = resp.data;
+                    if (this.horseFarms) {
+                        this.isHorse = true;
+                    }
                 }
             },
 
             getFlocks: async function () {
                 let resp = await axios.get('/Enterprise/GetFlocks');
-                this.sheepFarms = resp.data;
-                if (this.sheepFarms) {
-                    this.isSheep = true;
+                if(resp.data!=""){
+                    this.sheepFarms = resp.data;
+                    if (this.sheepFarms) {
+                        this.isSheep = true;
+                    }
                 }
             },
 
             getFarms: async function () {
                 let resp = await axios.get('/Enterprise/GetFarms');
-                this.cowFarms = resp.data;
-                if (this.cowFarms) {
-                    this.isCow = true;
+                if(resp.data!=""){
+                    this.cowFarms = resp.data;
+                    if (this.cowFarms) {
+                        this.isCow = true;
+                    }
                 }
             },
             saveFarm: async function () {
