@@ -81,7 +81,7 @@
                             </template>
                             <template v-else>
                                 <td></td>
-                                <td><input v-model="cowFarm.name" required type="text"/></td>
+                                <td><input v-model="cowFarm.name" required type="text" /></td>
                                 <td>
                                     <select v-model.number="cowFarm.type">
                                         <option disabled>Выберите тип</option>
@@ -91,8 +91,10 @@
                                 </td>
                                 <td>0</td>
                                 <td>
-                                    <button v-on:click="removeCowFarm();" class="btn outRed" type="button"><i class="fa fa-eraser"></i></button>
-                                    <button v-on:click="saveFarm()" class="btn outBlue"><i class="fa fa-check"></i></button>
+                                    <button v-on:click="removeCowFarm();" class="btn outRed" type="button"><i
+                                            class="fa fa-eraser"></i></button>
+                                    <button v-on:click="saveFarm()" class="btn outBlue"><i
+                                            class="fa fa-check"></i></button>
                                 </td>
                             </template>
                         </tr>
@@ -112,26 +114,53 @@
             </label>
         </div>
         <div class="body" v-if="isSheep">
-            <table>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Название</th>
-                        <th>Вид отары</th>
-                        <th>Поголовье, гол</th>
-                        <th>Действия</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
+            <form id="formSheepFarm" action="javascript:;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Название</th>
+                            <th>Вид отары</th>
+                            <th>Поголовье, гол</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(farm,ind) in sheepFarms">
+                            <template v-if="farm.isEdit==false">
+                                <td>{{ind+1}}</td>
+                                <td>{{farm.name}}</td>
+                                <td>{{farm.type}}</td>
+                                <td>{{farm.count}}</td>
+                                <td>
+                                    <button class="btn outBlack" type="button"><i class="fa fa-trash"></i></button>
+                                </td>
+                            </template>
+                            <template v-else>
+                                <td></td>
+                                <td><input v-model="sheepFarm.name" required type="text" /></td>
+                                <td>
+                                    <select v-model.number="sheepFarm.type">
+                                        <option disabled>Выберите тип</option>
+                                        <option value="1">Племенная</option>
+                                        <option value="2">Товарная</option>
+                                    </select>
+                                </td>
+                                <td>0</td>
+                                <td>
+                                    <button v-on:click="removeSheepFarm();" class="btn outRed" type="button"><i
+                                            class="fa fa-eraser"></i></button>
+                                    <button v-on:click="saveSheepFarm()" class="btn outBlue"><i
+                                            class="fa fa-check"></i></button>
+                                </td>
+                            </template>
+                        </tr>
 
-                    </tr>
-
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </form>
             <div style="margin:5px; text-align: right;">
-                <button class="btn outBlue"><i class="fa fa-plus"></i>
-                    Добавить</button>
+                <button class="btn outBlue" v-on:click="addSheepFarm();"><i class="fa fa-plus"></i>Добавить</button>
             </div>
         </div>
     </div>
@@ -143,26 +172,52 @@
             </label>
         </div>
         <div class="body" v-if="isHorse">
-            <table>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Название</th>
-                        <th>Вид табуна</th>
-                        <th>Поголовье, гол</th>
-                        <th>Действия</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-
-                    </tr>
-
-                </tbody>
-            </table>
+            <form id="formHorseFarm" action="javascript:;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Название</th>
+                            <th>Вид табуна</th>
+                            <th>Поголовье, гол</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(farm,ind) in horseFarms">
+                            <template v-if="farm.isEdit==false">
+                                <td>{{ind+1}}</td>
+                                <td>{{farm.name}}</td>
+                                <td>{{farm.type}}</td>
+                                <td>{{farm.count}}</td>
+                                <td>
+                                    <button class="btn outBlack" type="button"><i class="fa fa-trash"></i></button>
+                                </td>
+                            </template>
+                            <template v-else>
+                                <td></td>
+                                <td><input v-model="horseFarm.name" required type="text" /></td>
+                                <td>
+                                    <select v-model.number="horseFarm.type">
+                                        <option disabled>Выберите тип</option>
+                                        <option value="1">Племенная</option>
+                                        <option value="2">Товарная</option>
+                                    </select>
+                                </td>
+                                <td>0</td>
+                                <td>
+                                    <button v-on:click="removeHorseFarm();" class="btn outRed" type="button"><i
+                                            class="fa fa-eraser"></i></button>
+                                    <button v-on:click="saveHorseFarm()" class="btn outBlue"><i
+                                            class="fa fa-check"></i></button>
+                                </td>
+                            </template>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
             <div style="margin:5px; text-align: right;">
-                <button class="btn outBlue"><i class="fa fa-plus"></i>
-                    Добавить</button>
+                <button class="btn outBlue" v-on:click="addHorseFarm();"><i class="fa fa-plus"></i>Добавить</button>
             </div>
         </div>
     </div>
@@ -173,26 +228,53 @@
             </label>
         </div>
         <div class="body" v-if="isCamel">
-            <table>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Название</th>
-                        <th>Вид стада</th>
-                        <th>Поголовье, гол</th>
-                        <th>Действия</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
+            <form id="formCamelFarm" action="javascript:;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Название</th>
+                            <th>Вид стада</th>
+                            <th>Поголовье, гол</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(farm,ind) in camelFarms">
+                            <template v-if="farm.isEdit==false">
+                                <td>{{ind+1}}</td>
+                                <td>{{farm.name}}</td>
+                                <td>{{farm.type}}</td>
+                                <td>{{farm.count}}</td>
+                                <td>
+                                    <button class="btn outBlack" type="button"><i class="fa fa-trash"></i></button>
+                                </td>
+                            </template>
+                            <template v-else>
+                                <td></td>
+                                <td><input v-model="camelFarm.name" required type="text" /></td>
+                                <td>
+                                    <select v-model.number="camelFarm.type">
+                                        <option disabled>Выберите тип</option>
+                                        <option value="1">Племенная</option>
+                                        <option value="2">Товарная</option>
+                                    </select>
+                                </td>
+                                <td>0</td>
+                                <td>
+                                    <button v-on:click="removeCamelFarm();" class="btn outRed" type="button"><i
+                                            class="fa fa-eraser"></i></button>
+                                    <button v-on:click="saveCamelFarm()" class="btn outBlue"><i
+                                            class="fa fa-check"></i></button>
+                                </td>
+                            </template>
+                        </tr>
 
-                    </tr>
-
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </form>
             <div style="margin:5px; text-align: right;">
-                <button class="btn outBlue"><i class="fa fa-plus"></i>
-                    Добавить</button>
+                <button class="btn outBlue" v-on:click="addCamelFarm();"><i class="fa fa-plus"></i>Добавить</button>
             </div>
         </div>
     </div>
@@ -203,30 +285,57 @@
             </label>
         </div>
         <div class="body" v-if="isPig">
-            <table>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Название</th>
-                        <th>Вид стада</th>
-                        <th>Поголовье, гол</th>
-                        <th>Действия</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
+            <form id="formPigFarm" action="javascript:;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Название</th>
+                            <th>Вид стада</th>
+                            <th>Поголовье, гол</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(farm,ind) in pigFarms">
+                            <template v-if="farm.isEdit==false">
+                                <td>{{ind+1}}</td>
+                                <td>{{farm.name}}</td>
+                                <td>{{farm.type}}</td>
+                                <td>{{farm.count}}</td>
+                                <td>
+                                    <button class="btn outBlack" type="button"><i class="fa fa-trash"></i></button>
+                                </td>
+                            </template>
+                            <template v-else>
+                                <td></td>
+                                <td><input v-model="pigFarm.name" required type="text" /></td>
+                                <td>
+                                    <select v-model.number="pigFarm.type">
+                                        <option disabled>Выберите тип</option>
+                                        <option value="1">Племенная</option>
+                                        <option value="2">Товарная</option>
+                                    </select>
+                                </td>
+                                <td>0</td>
+                                <td>
+                                    <button v-on:click="removePigFarm();" class="btn outRed" type="button"><i
+                                            class="fa fa-eraser"></i></button>
+                                    <button v-on:click="savePigFarm()" class="btn outBlue"><i
+                                            class="fa fa-check"></i></button>
+                                </td>
+                            </template>
+                        </tr>
 
-                    </tr>
-
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </form>
             <div style="margin:5px; text-align: right;">
-                <button class="btn outBlue"><i class="fa fa-plus"></i>
-                    Добавить</button>
+                <button class="btn outBlue" v-on:click="addPigFarm();"><i class="fa fa-plus"></i>Добавить</button>
             </div>
         </div>
     </div>
- 
+
 </div>
 
 @section Scripts{
@@ -241,16 +350,16 @@
             isPig: false,
 
             cowFarms: [],
-            cowFarm:{},
+            cowFarm: {},
             sheepFarms: [],
-            sheepFarm:{},
+            sheepFarm: {},
             horseFarms: [],
-            horseFarm:{},
+            horseFarm: {},
             pigFarms: [],
-            pigFarm:{},
+            pigFarm: {},
             camelFarms: [],
-            camelFarm:{}
-           
+            camelFarm: {}
+
 
         },
         mounted() {
@@ -262,8 +371,8 @@
 
         },
         methods: {
-            checkIsInvalid: function () {
-                let arrInput = formFarm.querySelectorAll("[required], [pattern]");
+            checkIsInvalid: function (form) {
+                let arrInput = form.querySelectorAll("[required], [pattern]");
                 let isInvalid = false;
                 for (let inp of arrInput) {
                     if (inp.checkValidity()) {
@@ -275,59 +384,119 @@
                 }
                 return isInvalid;
             },
-            getCaravans:async function(){
+            getCaravans: async function () {
                 let resp = await axios.get('/Enterprise/GetCaravans');
                 this.camelFarms = resp.data;
-                if(this.camelFarms){
+                if (this.camelFarms) {
                     this.isCamel = true;
                 }
             },
-            getHerds:async function(){
+            getHerds: async function () {
                 let resp = await axios.get('/Enterprise/GetHerds');
                 this.pigFarms = resp.data;
-                if(this.pigFarms){
+                if (this.pigFarms) {
                     this.isPig = true;
                 }
             },
 
-            getTabuns:async function(){
+            getTabuns: async function () {
                 let resp = await axios.get('/Enterprise/GetTabuns');
                 this.horseFarms = resp.data;
-                if(this.horseFarms){
+                if (this.horseFarms) {
                     this.isHorse = true;
                 }
             },
 
-            getFlocks:async function(){
+            getFlocks: async function () {
                 let resp = await axios.get('/Enterprise/GetFlocks');
                 this.sheepFarms = resp.data;
-                if(this.sheepFarms){
+                if (this.sheepFarms) {
                     this.isSheep = true;
                 }
             },
 
-            getFarms:async function(){
+            getFarms: async function () {
                 let resp = await axios.get('/Enterprise/GetFarms');
                 this.cowFarms = resp.data;
-                if(this.cowFarms){
+                if (this.cowFarms) {
                     this.isCow = true;
                 }
             },
-            saveFarm : async function () {
-                if (this.checkIsInvalid()) {
+            saveFarm: async function () {
+                if (this.checkIsInvalid(formFarm)) {
                     return;
                 }
                 let resp = await axios.post('/Enterprise/SaveFarms', this.cowFarm);
                 this.getFarms();
                 alert(resp.data);
             },
-            addCowFarm() {
-                this.cowFarm = {id:0, name:'',type:1, count:0, isEdit: true };
-                this.cowFarms.push(this.cowFarm );
-                
+            saveSheepFarm: async function () {
+                if (this.checkIsInvalid(formSheepFarm)) {
+                    return;
+                }
+                let resp = await axios.post('/Enterprise/SaveFlocks', this.sheepFarm);
+                this.getFlocks();
+                alert(resp.data);
             },
-            removeCowFarm(){
+            saveHorseFarm: async function () {
+                if (this.checkIsInvalid(formHorseFarm)) {
+                    return;
+                }
+                let resp = await axios.post('/Enterprise/SaveTabuns', this.horseFarm);
+                this.getTabuns();
+                alert(resp.data);
+            },
+            saveCamelFarm: async function () {
+                if (this.checkIsInvalid(formCamelFarm)) {
+                    return;
+                }
+                let resp = await axios.post('/Enterprise/SaveCaravans', this.camelFarm);
+                this.getCaravans();
+                alert(resp.data);
+            },
+            savePigFarm: async function () {
+                if (this.checkIsInvalid(formPigFarm)) {
+                    return;
+                }
+                let resp = await axios.post('/Enterprise/SaveHerds', this.pigFarm);
+                this.getHerds();
+                alert(resp.data);
+            },
+            addCowFarm() {
+                this.cowFarm = { id: 0, name: '', type: 1, count: 0, isEdit: true };
+                this.cowFarms.push(this.cowFarm);
+
+            },
+            addSheepFarm(){
+                this.sheepFarm = {id:0, name:'', type:1, count: 0, isEdit:true};
+                this.sheepFarms.push(this.sheepFarm);
+            },
+            addHorseFarm(){
+                this.horseFarm = {id:0, name:'', type:1, count: 0, isEdit:true};
+                this.horseFarms.push(this.horseFarm);
+            },
+            addCamelFarm(){
+                this.camelFarm = {id:0, name:'', type:1, count: 0, isEdit:true};
+                this.camelFarms.push(this.camelFarm);
+            },
+            addPigFarm(){
+                this.pigFarm = {id:0, name:'', type:1, count: 0, isEdit:true};
+                this.pigFarms.push(this.pigFarm);
+            },
+            removeCowFarm() {
                 this.cowFarms.pop();
+            },
+            removePigFarm() {
+                this.pigFarms.pop();
+            },
+            removeCamelFarm() {
+                this.camelFarms.pop();
+            },
+            removeHorseFarm() {
+                this.horseFarms.pop();
+            },
+            removeSheepFarm() {
+                this.sheepFarms.pop();
             }
         }
     });

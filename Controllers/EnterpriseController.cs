@@ -27,6 +27,9 @@ namespace eShop.Controllers
             return View();
         }
 
+
+
+        //Фермы
         public IActionResult Farms()
         {
             return View();
@@ -35,6 +38,19 @@ namespace eShop.Controllers
         {
             public string Name { get; set; }
             public FarmType Type { get; set; }
+        }
+       
+        [HttpGet]
+        public IActionResult GetFarms()
+        {
+            var entId = int.Parse(User.FindFirst(x => x.Type == "EnterpriseId").Value);
+            var farms = _db.Farms.Where(x => x.EnterpriseId == entId);
+            if (farms != null)
+            {
+                var f = farms.Select(x => new { x.Name, Type = x.FarmType.GetDescription(), IsEdit = false });
+                return Json(f);
+            }
+            return Json("");
         }
         [HttpPost]
         public IActionResult SaveFarms([FromBody] TFarm farm)
@@ -49,18 +65,6 @@ namespace eShop.Controllers
             return Json("OK");
         }
         [HttpGet]
-        public IActionResult GetFarms()
-        {
-            var entId = int.Parse(User.FindFirst(x => x.Type == "EnterpriseId").Value);
-            var farms = _db.Farms.Where(x => x.EnterpriseId == entId);
-            if (farms != null)
-            {
-                var f = farms.Select(x => new { x.Name, Type = x.FarmType.GetDescription(), IsEdit = false });
-                return Json(f);
-            }
-            return Json("");
-        }
-        [HttpGet]
         public IActionResult GetFlocks()
         {
             var entId = int.Parse(User.FindFirst(x => x.Type == "EnterpriseId").Value);
@@ -72,6 +76,19 @@ namespace eShop.Controllers
             }
             return Json("");
         }
+        [HttpPost]
+        public IActionResult SaveFlocks([FromBody] TFarm farm)
+        {
+            var entId = int.Parse(User.FindFirst(x => x.Type == "EnterpriseId").Value);
+            var f = new Flock();
+            f.Name = farm.Name;
+            f.FarmType = farm.Type;
+            f.EnterpriseId = entId;
+            _db.Flocks.Add(f);
+            _db.SaveChanges();
+            return Json("OK");
+        }
+
         [HttpGet]
         public IActionResult GetTabuns()
         {
@@ -83,6 +100,18 @@ namespace eShop.Controllers
                 return Json(f);
             }
             return Json("");
+        }
+        [HttpPost]
+        public IActionResult SaveTabuns([FromBody] TFarm farm)
+        {
+            var entId = int.Parse(User.FindFirst(x => x.Type == "EnterpriseId").Value);
+            var f = new Tabun();
+            f.Name = farm.Name;
+            f.FarmType = farm.Type;
+            f.EnterpriseId = entId;
+            _db.Tabuns.Add(f);
+            _db.SaveChanges();
+            return Json("OK");
         }
         [HttpGet]
         public IActionResult GetHerds()
@@ -96,6 +125,19 @@ namespace eShop.Controllers
             }
             return Json("");
         }
+        [HttpPost]
+        public IActionResult SaveHerds([FromBody] TFarm farm)
+        {
+            var entId = int.Parse(User.FindFirst(x => x.Type == "EnterpriseId").Value);
+            var f = new Herd();
+            f.Name = farm.Name;
+            f.FarmType = farm.Type;
+            f.EnterpriseId = entId;
+            _db.Herds.Add(f);
+            _db.SaveChanges();
+            return Json("OK");
+        }
+
         [HttpGet]
         public IActionResult GetCaravans()
         {
@@ -107,6 +149,18 @@ namespace eShop.Controllers
                 return Json(f);
             }
             return Json("");
+        }
+          [HttpPost]
+        public IActionResult SaveCaravans([FromBody] TFarm farm)
+        {
+            var entId = int.Parse(User.FindFirst(x => x.Type == "EnterpriseId").Value);
+            var f = new Caravan();
+            f.Name = farm.Name;
+            f.FarmType = farm.Type;
+            f.EnterpriseId = entId;
+            _db.Caravans.Add(f);
+            _db.SaveChanges();
+            return Json("OK");
         }
 
         [HttpGet]
