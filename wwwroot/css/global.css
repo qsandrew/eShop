@@ -136,8 +136,8 @@ table tbody td {
     background: #2f353b;
 }
 .outWhite {
-    border: 1px solid #edf4f8;
-    color: #edf4f8;
+    border: 1px solid hsl(0, 0%, 90%);
+    color: hsl(0, 0%, 90%);
     background: transparent;
 }
 

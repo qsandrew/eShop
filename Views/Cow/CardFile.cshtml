@@ -25,6 +25,7 @@
 <div class="card">
     <div class="title green"><i class="fa fa-home"></i>
         <button class="btn outWhite"><i class="fa fa-plus"></i> Добавить</button>
+        <button class="btn outWhite"><i class="fa fa-pencil"></i> Редактировать</button>
     </div>
     <div class="body">
         <table>
@@ -35,13 +36,15 @@
                     <th style="width: 70px;">Пол.группа</th>
                     <th style="width: 150px;">ИНЖ номер</th>
                     <th style="width: 150px;">Зарубежный номер</th>
-                    <th>Инвентарный номер</th>
+                   
                     <th>Регистрационный номер</th>
+                    <th>Инвентарный номер</th>
                     <th>Кличка</th>
                     <th style="width: 200px;">Порода</th>
                     <th style="width: 70px;">Дата рождения</th>
                     <th style="width: 70px;">Возраст, мес</th>
                     <th style="width: 200px;">Ферма</th>
+                    <th></th>
                 </tr>
                 <tr>
                     <td></td>
@@ -68,16 +71,27 @@
                     </td>
                     <td>
                         <select>
-                            <option disabled>Выберите породу</option>
+                            <option disabled>Выберите ферму</option>
                         </select>
                     </td>
+                    <td></td>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td></td>
+                    <td><input type="radio" name="select"/></td>
                     <td>1</td>
                     <td>Корова</td>
+                    <td>KZC122222222</td>
+                    <td>DE 555555555</td>
+                    <td>125485</td>
+                    <td>125485</td>
+                    <td>Машка</td>
+                    <td>Семминтальская</td>
+                    <td>23.03.2020</td>
+                    <td>20</td>
+                    <td>Мясная ферма</td>
+                    <td> <button class="btn outBlack" style="border-radius: 30%;"><i class="fa fa-search"></i></button> </td>
                 </tr>
             </tbody>
         </table>
