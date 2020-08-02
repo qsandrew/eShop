@@ -4,6 +4,10 @@
         margin-bottom: 3px;
     }
 
+    input[type='checkbox'][readonly] {
+        pointer-events: none;
+    }
+
     .card {
         border: 1px solid #32c5d2;
         margin-bottom: 10px;
@@ -32,11 +36,11 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>#</th>
+                    <th style="width: 30px;">#</th>
                     <th style="width: 70px;">Пол.группа</th>
                     <th style="width: 150px;">ИНЖ номер</th>
                     <th style="width: 150px;">Зарубежный номер</th>
-                   
+
                     <th>Регистрационный номер</th>
                     <th>Инвентарный номер</th>
                     <th>Кличка</th>
@@ -44,6 +48,8 @@
                     <th style="width: 70px;">Дата рождения</th>
                     <th style="width: 70px;">Возраст, мес</th>
                     <th style="width: 200px;">Ферма</th>
+                    <th><i class="fa fa-anchor" title="Выбывшие"></i></th>
+                    <th><i class="fa fa-check" title="Племенные"></i></th>
                     <th></th>
                 </tr>
                 <tr>
@@ -65,7 +71,7 @@
                         </select>
                     </td>
                     <td>
-                      
+
                     </td>
                     <td>
                     </td>
@@ -74,12 +80,14 @@
                             <option disabled>Выберите ферму</option>
                         </select>
                     </td>
+                    <td> </td>
+                    <td> </td>
                     <td></td>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><input type="radio" name="select"/></td>
+                    <td><input type="radio" name="select" /></td>
                     <td>1</td>
                     <td>Корова</td>
                     <td>KZC122222222</td>
@@ -91,7 +99,10 @@
                     <td>23.03.2020</td>
                     <td>20</td>
                     <td>Мясная ферма</td>
-                    <td> <button class="btn outBlack" style="border-radius: 30%;"><i class="fa fa-search"></i></button> </td>
+                    <td><input readonly checked type="checkbox" /></td>
+                    <td><input readonly type="checkbox" /></td>
+                    <td> <button class="btn outBlack" style="border-radius: 30%;"><i class="fa fa-search"></i></button>
+                    </td>
                 </tr>
             </tbody>
         </table>

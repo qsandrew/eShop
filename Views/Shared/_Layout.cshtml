@@ -81,11 +81,18 @@
             text-decoration: none;
             display: block;
             color: #b4bcc8;
-            padding: 10px 15px 10px 45px;
+            padding: 10px 15px 10px 30px;
         }
 
         .subMenu>li>a:hover {
             background-color: #3e4b5c;
+        }
+
+        .subMenu .subMenu>li>a{
+            text-decoration: none;
+            display: block;
+            color: #b4bcc8;
+            padding-left: 50px;
         }
     </style>
 </head>
@@ -98,9 +105,7 @@
     <nav>
         <p></p>
         <ul class="menu">
-            <li>
-                <h3>ГЛАВНАЯ</h3>
-            </li>
+          
             <li>
                 <a href="#" class="active">
                     <i class="icon-home"></i> Главная <span class="icon-arrow-down iconRight"></span>
@@ -117,13 +122,27 @@
                
             </li>
             <li>
-                <h3>КРС <span class="icon-arrow-down iconRight"></span></h3>
+                <h3>ЖИВОТНОВОДСТВО </h3>
             </li>
 
             <li>
-                <a href="/Cow/CardFile">
-                    <i class="icon-organization"></i> Картотека
+                <a href="#" class="active">
+                    <i class="icon-organization"></i> КРС <span class="icon-arrow-down iconRight"></span>
                 </a>
+                <ul class="subMenu">
+                    <li> <a href="/Cow/CardFile">Картотека</a> </li>
+                </ul>
+                <ul class="subMenu">
+                    <li> 
+                        <a href="#">События <span class="icon-arrow-down iconRight"></span></a> 
+                        
+
+                        <ul class="subMenu">
+                            <li> <a href="#">Осеменение</a> </li>
+                        </ul>
+                    </li>
+                </ul>
+              
             </li>
         </ul>
 
