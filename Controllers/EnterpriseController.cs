@@ -16,11 +16,12 @@ namespace eShop.Controllers
     public class EnterpriseController : Controller
     {
         private IasContext _db;
-        private readonly ILogger<HomeController> _logger;
-        public EnterpriseController(IasContext context, ILogger<HomeController> logger)
+        //private readonly ILogger<HomeController> _logger;
+        public EnterpriseController(IasContext context)
         {
             _db = context;
-            _logger = logger;
+            //, ILogger<HomeController> logger
+            //_logger = logger;
         }
         public IActionResult Company()
         {

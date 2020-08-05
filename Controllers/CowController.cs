@@ -9,11 +9,9 @@ namespace eShop.Controllers
     public class CowController : Controller
     {
         private IasContext _db;
-        private readonly ILogger<CowController> _logger;
-        public CowController(IasContext context, ILogger<CowController> logger)
+        public CowController(IasContext context)
         {
             _db = context;
-            _logger = logger;
         }
 
         public IActionResult CardFile()

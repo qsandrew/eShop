@@ -22,13 +22,11 @@ namespace eShop.Controllers
     public class LoginController : Controller
     {
         private IasContext _db;
-        private readonly ILogger<HomeController> _logger;
         IWebHostEnvironment _appEnvironment;
 
-        public LoginController(IasContext context, ILogger<HomeController> logger, IWebHostEnvironment appEnvironment)
+        public LoginController(IasContext context, IWebHostEnvironment appEnvironment)
         {
             _db = context;
-            _logger = logger;
             _appEnvironment = appEnvironment;
         }
 

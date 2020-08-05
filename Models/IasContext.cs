@@ -2,11 +2,17 @@ using eShop.Models.CowInfo;
 using eShop.Models.EntInfo;
 using eShop.Models.EntInfo.Reference;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace eShop.Models
 {
     public class IasContext : DbContext
     {
+        private readonly ILoggerFactory loggerFactory = LoggerFactory.Create(config=>config.AddConsole());
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder){
+            optionsBuilder.UseLoggerFactory(loggerFactory);
+        }
+
         public IasContext(DbContextOptions<IasContext> options)
        : base(options)
         { }
